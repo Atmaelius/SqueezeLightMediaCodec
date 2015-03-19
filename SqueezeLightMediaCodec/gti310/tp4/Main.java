@@ -21,7 +21,7 @@ public class Main {
 	public static final int COLOR_SPACE_SIZE = 3;
 	
 	/*
-	 * The RGB color space.
+	 * The RGB color space. salut
 	 */
 	public static final int R = 0;
 	public static final int G = 1;
