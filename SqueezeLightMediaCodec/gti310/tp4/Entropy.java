@@ -5,7 +5,7 @@ package gti310.tp4;
  * RLE compression. It does not write the information to a file, but to a
  * buffer, that can be written to a file using the SZLReaderWriter class.
  * 
- * @author François Caron
+ * @author FranÃ§ois Caron
  * 
  * @history
  * 2006-11-29 Fixed values in HUFFMAN_AC table
