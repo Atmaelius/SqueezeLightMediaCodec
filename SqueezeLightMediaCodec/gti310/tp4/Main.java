@@ -1,6 +1,6 @@
 package gti310.tp4;
 
-import gti310.tp4.utility.ColorConverter;
+import gti310.tp4.utility.PixelManipulation;
 
 /**
  * The Main class is where the different functions are called to either encode
@@ -13,26 +13,18 @@ import gti310.tp4.utility.ColorConverter;
 
 public class Main {
 
-	/*
-	 * The entire application assumes that the blocks are 8x8 squares.
-	 */
+	// The entire application assumes that the blocks are 8x8 squares.
 	public static final int BLOCK_SIZE = 8;
 	
-	/*
-	 * The number of dimensions in the color spaces.
-	 */
+	// The number of dimensions in the color spaces.
 	public static final int COLOR_SPACE_SIZE = 3;
 	
-	/*
-	 * The RGB color space. salut
-	 */
+	// The RGB color space.
 	public static final int R = 0;
 	public static final int G = 1;
 	public static final int B = 2;
 	
-	/*
-	 * The YUV color space.
-	 */
+	// The YUV color space.
 	public static final int Y = 0;
 	public static final int U = 1;
 	public static final int V = 2;
@@ -63,53 +55,30 @@ public class Main {
 			facteurQualite = Integer.valueOf(args[0]);
 		}
 
-		if(args.length == 3){ // 3 param donc encodage
-			//encoder(facteurQualite, args[1], args[2]);
-			System.out.println(" OPERATION ENCODAGE ");
+		if(args.length == 3){ // 3 param donc encodage  ->  encoder(facteurQualite, args[1], args[2]);
+			System.out.println("OPERATION ENCODAGE ");
 			
-			// lecture du fichier -> array 3 dimension -> 1 dimension/couleurRGB
-			int[][][] imagePPMArray = PPMReaderWriter.readPPMFile(args[1]);
-			int[][][] testImageResult = new int[imagePPMArray.length][imagePPMArray[0].length][imagePPMArray[0][0].length];
+			// lecture du fichier -> array 3 dimension -> 1 dimension/couleurRGB -> [R,G,B][0-256][0-256]
+			int[][][] originalImageArray = PPMReaderWriter.readPPMFile(args[1]);
 			
-			int z = 0;
 			
-			for (int i = 0; i < imagePPMArray.length; i++) {
-				for (int j = 0; j < imagePPMArray[i].length; j++) {
-					for (int k = 0; k < imagePPMArray[i][j].length; k++) {
-				System.out.println("----");
-				System.out.print(imagePPMArray[i][j][k]+"-");
-		//		System.out.print(imagePPMArray[i][j][k+1]+"-");
-			//	System.out.print(imagePPMArray[i][j][k+2]+"-");
-
-				System.out.println("*****");	
-				
-				//	testImageResult[i][j][k] = ColorConverter.RGBToYCbCr(imagePPMArray[i][j][k]); 
-						
-						
-						if(imagePPMArray[i].length - j > 8){
-							j+= 4;
-						}
-						
-						
-						if(z == 2){
-							z = -1;
-							System.out.println();
-						}
-						z++;
-					}
-				}
-			}
+		//	PixelManipulation.show8x8IntMatrix(originalImageArray);
+			
 			// faire la conversion des couleurs du array de RGB vers YCbCr
+			float[][][] YCbCrImageArray = PixelManipulation.RGBToYCbCrImageConversion(originalImageArray);
 			
-			PPMReaderWriter.writePPMFile(args[2], testImageResult);
+			PixelManipulation.show8x8FloatMatrix(YCbCrImageArray);
+			float[][][] DCTResult = PixelManipulation.DCTConversion(YCbCrImageArray);
 			
 		}
 		else if(args.length == 2){ // 2 param donc decodage
 			// decoder(args[0], args[1]);
 			System.out.println("OPERATION DECODAGE ");
+			
 		}
 		else{ // pas le bon nombre de param
 			System.out.println("ERREUR: MAUVAIS NOMBRE DE PARAMETRE");
+			
 		}
 		
 	}
