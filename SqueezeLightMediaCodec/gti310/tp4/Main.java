@@ -62,13 +62,18 @@ public class Main {
 			int[][][] originalImageArray = PPMReaderWriter.readPPMFile(args[1]);
 			
 			
-		//	PixelManipulation.show8x8IntMatrix(originalImageArray);
+	//		PixelManipulation.show8x8IntMatrix(originalImageArray);
 			
 			// faire la conversion des couleurs du array de RGB vers YCbCr
 			float[][][] YCbCrImageArray = PixelManipulation.RGBToYCbCrImageConversion(originalImageArray);
 			
-			PixelManipulation.show8x8FloatMatrix(YCbCrImageArray);
+		//	PixelManipulation.show8x8FloatMatrix(YCbCrImageArray);
 			float[][][] DCTResult = PixelManipulation.DCTConversion(YCbCrImageArray);
+			
+			//PixelManipulation.show8x8FloatMatrix(DCTResult);
+			
+			
+			
 			
 		}
 		else if(args.length == 2){ // 2 param donc decodage
