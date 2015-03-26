@@ -1,5 +1,6 @@
 package gti310.tp4.utility;
 
+import gti310.tp4.Main;
 import gti310.tp4.PPMReaderWriter;
 
 public class PixelManipulation {
@@ -59,8 +60,6 @@ public class PixelManipulation {
 		PPMReaderWriter.writePPMFile(path, YCbCrToRGBImageConversion(floatArray));
 	}
 	
-	
-	
 	public static void show8x8List(float[][] array){
 		
 		for (int i = 0; i < array.length; i+=8) {
@@ -73,9 +72,15 @@ public class PixelManipulation {
 	}
 	
 	
+	// IL SEMBLE QUE LA MÉTHODE NE PERMETTE PAS DAFFICHER LES DONNES
+	// IL FAUDRA EN FAIRE UNE NOUVELLE POUR ADAPTER POUR LE DCT
 	public static void show8x8FloatMatrix(float[][][] array){
-	
-		int nbBlock = array[0][0].length/8;
+		int nbBlock = array[0][0].length;
+		if(array[0][0].length/8 == 1){
+			
+			 nbBlock = array[0][0].length/8;
+		}
+		
 		
 		System.out.println(nbBlock);
 		
@@ -96,8 +101,6 @@ public class PixelManipulation {
 		}
 		
 	}
-	
-	
 
 	public static void show8x8IntMatrix(int[][][] array){
 	
@@ -125,94 +128,87 @@ public class PixelManipulation {
 		
 	}
 	
-	/*
-	public static void show8x8Matrix(float[][] array){
-		String str = "|\t";	
-		
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				str += array[i][j] + "\t";
-			}
-			System.out.println(str + "|");
-			str = "|\t";
-		}
-		System.out.println("\n");
-	}
-	*/
-	
-	
-	
-	/*
-	public static void get8x8Matrix(float[][][] array){
-		float[][] tempDctArray = new float[8][8];
-
-		int nbBlock = array[0].length/8;
-		
-		for (int i = 0 ; i < 2; i++) { // boucler a travers les composantes
-			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
-				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-					for (int y = 0; y < 8; y++) {
-						for (int x = 0; x < 8 ; x++) {
-							int valX = h * 8 + x;
-							int valY = v * 8 + y;
-						
-							System.out.printf("%3.2f\t",array[i][valY][valX]);
-							tempDctArray[y][x] = array[i][valY][valX];
-						}
-						
-						System.out.println();
-					}
-					// envoyer a DCT
-				}
-			}
-		}
-	}
-	*/
-	
 	
 	public static float[][][] DCTConversion(float[][][] originalArray){
 		float[][][] tempDctArray = new float[3][8][8];
+		float[][][] ResultDctArray = new float[3][8][8];
 
+		
 		int nbBlock = originalArray[0].length/8;
 		
 		for (int i = 0 ; i < 2; i++) { // boucler a travers les composantes
 			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-					for (int y = 0; y < 8; y++) {
-						for (int x = 0; x < 8 ; x++) {
-							int valX = h * 8 + x;
-							int valY = v * 8 + y;
+					for (int y = 0; y < Main.BLOCK_SIZE; y++) {
+						for (int x = 0; x < Main.BLOCK_SIZE ; x++) {
+							int valX = h * Main.BLOCK_SIZE + x;
+							int valY = v * Main.BLOCK_SIZE + y;
 						
 							tempDctArray[i][y][x] = originalArray[i][valY][valX];
 						}
-						
-					//	System.out.println();
 					}
 					// envoyer a DCT
-					Converter.DCTconverter(tempDctArray);
-					
-					
+					ResultDctArray = Converter.DCTconverter(tempDctArray);
 				}
 			}
 		}
 		
-	//	show8x8Matrix(originalArray);
-		
-		
-		return null;
+		return ResultDctArray;
 	}
 	
-	
-	
-	/*
-	 * 
-				// Reception
-				temp = ColorConverter.YCbCrToRGB(YCbCrResult[R],YCbCrResult[G],YCbCrResult[B]);  
-				
-				imageResult[R][i][j] = temp[R];
-				imageResult[G][i][j] = temp[G];
-				imageResult[B][i][j] = temp[B];
-	 * 
-	 */
-	
 }
+
+
+
+
+
+
+
+
+
+
+/*
+public static void show8x8Matrix(float[][] array){
+	String str = "|\t";	
+	
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			str += array[i][j] + "\t";
+		}
+		System.out.println(str + "|");
+		str = "|\t";
+	}
+	System.out.println("\n");
+}
+*/
+
+
+
+/*
+public static void get8x8Matrix(float[][][] array){
+	float[][] tempDctArray = new float[8][8];
+
+	int nbBlock = array[0].length/8;
+	
+	for (int i = 0 ; i < 2; i++) { // boucler a travers les composantes
+		for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
+			for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
+				for (int y = 0; y < 8; y++) {
+					for (int x = 0; x < 8 ; x++) {
+						int valX = h * 8 + x;
+						int valY = v * 8 + y;
+					
+						System.out.printf("%3.2f\t",array[i][valY][valX]);
+						tempDctArray[y][x] = array[i][valY][valX];
+					}
+					
+					System.out.println();
+				}
+				// envoyer a DCT
+			}
+		}
+	}
+}
+*/
+
+

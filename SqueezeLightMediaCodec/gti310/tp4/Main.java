@@ -70,9 +70,13 @@ public class Main {
 		//	PixelManipulation.show8x8FloatMatrix(YCbCrImageArray);
 			float[][][] DCTResult = PixelManipulation.DCTConversion(YCbCrImageArray);
 			
-			//PixelManipulation.show8x8FloatMatrix(DCTResult);
+			PixelManipulation.show8x8FloatMatrix(DCTResult);
+
+
+
 			
-			
+
+
 			
 			
 		}
