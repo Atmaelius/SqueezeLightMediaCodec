@@ -53,7 +53,7 @@ public class Main {
 		//	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
 			float[][][] DCTResult = ImageManipulator.DCTConversion(YCbCrImageArray);
 			
-			
+	/*		
 			// call quantification -> passer facteur qualite en param
 			int[][][] QuantificationResult = ImageManipulator.quantification(DCTResult, facteurQualite);
 			
@@ -66,7 +66,7 @@ public class Main {
 				System.out.print(data[i]+", ");
 			}
 			
-			
+*/			
 		}
 		else if(args.length == 2){ // 2 param donc decodage
 			// decoder(args[0], args[1]);

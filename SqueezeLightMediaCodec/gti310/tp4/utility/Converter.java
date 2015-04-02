@@ -45,24 +45,27 @@ public class Converter implements IConstants{
 	 * @return
 	 */
 	// inspiré de http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java
-	public static float[][] DCTConverter(float[][] block){
+	public static float[][][] DCTConverter(float[][][] block){
 		// manipuler un ensemble(bloc) de 8x8 pixel et applique le traitement de moyennes...
 		// remplir le tableau C
 		remplirC();
 		
-		float[][] F = new float[BLOCK_SIZE][BLOCK_SIZE];
+		float[][][] F = new float[3][BLOCK_SIZE][BLOCK_SIZE];
+		
 		// boucler sur les 3 premieres dimensions[R,G,B]
-		for (int u = 0; u < block.length; u++) {
-			for (int v = 0; v < block.length; v++) {
-				float somme = 0;
-				for (int i = 0; i < block.length; i++) {
-					for (int j = 0; j < block.length; j++) {
-						somme += ((C[u] * C[v])/4)*(Math.cos(((2 * i + 1) * u * Math.PI)/16) * Math.cos(((2 * j + 1) * v * Math.PI)/16)) * block[i][j];
+		for (int q = 0; q < 3; q++) {
+			for (int u = 0; u < block.length; u++) {
+				for (int v = 0; v < block.length; v++) {
+					float somme = 0;
+					for (int i = 0; i < block.length; i++) {
+						for (int j = 0; j < block.length; j++) {
+							somme += ((C[u] * C[v])/4)*(Math.cos(((2 * i + 1) * u * Math.PI)/16) * Math.cos(((2 * j + 1) * v * Math.PI)/16)) * block[q][i][j];
+						}
 					}
+					F[q][u][v] = Math.round(somme);
 				}
-				F[u][v] = Math.round(somme);
-			}
-		}	
+			}	
+		}
 		return F;
 	}
 	

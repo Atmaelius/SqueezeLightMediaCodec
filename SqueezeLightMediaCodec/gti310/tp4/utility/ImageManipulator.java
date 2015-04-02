@@ -5,6 +5,10 @@ import gti310.tp4.PPMReaderWriter;
 
 public class ImageManipulator implements IConstants{
 
+	
+	private static float[][][] resultDctArray = new float[3][256][256];
+
+	
 	//**     CONVERSION     **\\
 	
 	public static float[][][] RGBToYCbCrImageConversion(int[][][] image){
@@ -45,8 +49,7 @@ public class ImageManipulator implements IConstants{
 	 * @return ResultDctArray the resulting array of the conversion
 	 */
 	public static float[][][] DCTConversion(float[][][] originalArray){
-		float[][] tempDctArray = new float[8][8];
-		float[][][] resultDctArray = new float[3][8][8];
+		float[][][] tempDctArray = new float[3][8][8];
 		int nbBlock = originalArray[0].length/8;
 		
 		for (int i = 0 ; i < originalArray.length; i++) { // boucler a travers les composantes
@@ -57,12 +60,28 @@ public class ImageManipulator implements IConstants{
 							int valX = h * BLOCK_SIZE + x;
 							int valY = v * BLOCK_SIZE + y;
 						
-							tempDctArray[y][x] = originalArray[i][valY][valX];
+							tempDctArray[i][y][x] = originalArray[i][valY][valX];
 						}
 					}
 					// effectuer la conversion avec la fonction de DCT
-					resultDctArray[i][h][v] = Converter.DCTConverter(tempDctArray);
 					
+					// -> la dct retourne des valeurs et il faut les ajouter au array resultat
+					// les valeurs doivent êtres ajoutés a la suites des autres afin de retourner 
+					// array resultat complet a la fin 
+					tempDctArray = Converter.DCTConverter(tempDctArray);
+					
+				//	tempDctArray = Converter.DCTConverter(tempDctArray);
+					
+					
+				/*	
+					for (int j = resultDctArray.length; j < tempDctArray.length; j++) {
+						for (int k = resultDctArray[0].length; k < tempDctArray[0].length; k++) {
+							for (int l = resultDctArray[0][0].length;  l < tempDctArray[0][0].length; l++) {
+								resultDctArray[j][k][l] = tempDctArray[j][k][l];
+							}
+						}
+					}
+			*/
 					// afficher result array
 					showDCTBlock(resultDctArray[i]);
 				}
