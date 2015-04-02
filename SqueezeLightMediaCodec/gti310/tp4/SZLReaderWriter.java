@@ -1,5 +1,7 @@
 package gti310.tp4;
 
+import gti310.tp4.utility.IConstants;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -51,7 +53,7 @@ public class SZLReaderWriter {
 			out.writeByte(width & 0xff); /* 16 bits to write width */
 			
 			/* write number of color components */
-			out.writeByte((byte)(Main.COLOR_SPACE_SIZE & 0xff));
+			out.writeByte((byte)(IConstants.COLOR_SPACE_SIZE & 0xff));
 			
 			/* write quality factor */
 			out.writeByte(qualityFactor & 0xff);

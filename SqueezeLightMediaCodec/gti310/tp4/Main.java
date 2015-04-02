@@ -13,25 +13,8 @@ import gti310.tp4.utility.ImageManipulator;
 
 public class Main {
 
-	// The entire application assumes that the blocks are 8x8 squares.
-	public static final int BLOCK_SIZE = 8;
-	
-	// The number of dimensions in the color spaces.
-	public static final int COLOR_SPACE_SIZE = 3;
-	
-	// The RGB color space.
-	public static final int R = 0;
-	public static final int G = 1;
-	public static final int B = 2;
-	
-	// The YUV color space.
-	public static final int Y = 0;
-	public static final int U = 1;
-	public static final int V = 2;
-	
 	/**
 	 * The application's entry point.
-	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -69,13 +52,19 @@ public class Main {
 			
 		//	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
 			float[][][] DCTResult = ImageManipulator.DCTConversion(YCbCrImageArray);
-		
-			System.out.println("RESULTAT FINAL");
-
-
+			
+			
+			// call quantification -> passer facteur qualite en param
+			int[][][] QuantificationResult = ImageManipulator.quantification(DCTResult, facteurQualite);
 			
 
-
+//			ImageManipulator.show8x8IntMatrix(QuantificationResult);
+		
+			int[] data = ImageManipulator.Zig_Zag(QuantificationResult[0]);
+			
+			for (int i = 0; i < data.length; i++) {
+				System.out.print(data[i]+", ");
+			}
 			
 			
 		}

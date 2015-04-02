@@ -1,10 +1,8 @@
 package gti310.tp4.utility;
 
-import gti310.tp4.Main;
-
-public class Converter {
+public class Converter implements IConstants{
 	
-	public static float[] C = new float[Main.BLOCK_SIZE];
+	public static float[] C = new float[BLOCK_SIZE];
 	
 	
 	//http://stackoverflow.com/questions/1067073/initialising-a-multidimensional-array-in-java
@@ -40,7 +38,6 @@ public class Converter {
 		return RGBResult;
 	}
 	
-
 	
 	/**
 	 * Function that applies a DCT conversion to a 3 dimensionnal array of float values 
@@ -53,7 +50,7 @@ public class Converter {
 		// remplir le tableau C
 		remplirC();
 		
-		float[][] F = new float[Main.BLOCK_SIZE][Main.BLOCK_SIZE];
+		float[][] F = new float[BLOCK_SIZE][BLOCK_SIZE];
 		// boucler sur les 3 premieres dimensions[R,G,B]
 		for (int u = 0; u < block.length; u++) {
 			for (int v = 0; v < block.length; v++) {
@@ -70,25 +67,12 @@ public class Converter {
 	}
 	
 	
-	private static void remplirC(){
-	
-		for (int i = 0; i < C.length; i++) {
-			if(i == 0){
-				C[i] = (float) (1/Math.sqrt(2));
-			}
-			else{
-				C[i] = 1;
-			}
-		}
-	}
-	
-	
 	// inspiré de http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java
 	public static float[][] IDCTConverter(float[][] block){
 		// remplir le tableau C
 		remplirC();
 		
-		float[][] F = new float[Main.BLOCK_SIZE][Main.BLOCK_SIZE];
+		float[][] F = new float[BLOCK_SIZE][BLOCK_SIZE];
 		// boucler sur les 3 premieres dimensions[R,G,B]
 		for (int i = 0; i < block.length; i++) {
 			for (int j = 0; j < block.length; j++) {
@@ -98,11 +82,23 @@ public class Converter {
 						somme += ((C[u] * C[v])/4)*(Math.cos(((2 * i + 1) * u * Math.PI)/16) * Math.cos(((2 * j + 1) * v * Math.PI)/16)) * block[u][v];
 					}
 				}
-
 				F[i][j] = Math.round(somme);
 			}
 		}	
 		return F;
+	}
+	
+	
+	private static void remplirC(){
+		
+		for (int i = 0; i < C.length; i++) {
+			if(i == 0){
+				C[i] = (float) (1/Math.sqrt(2));
+			}
+			else{
+				C[i] = 1;
+			}
+		}
 	}
 	
 	

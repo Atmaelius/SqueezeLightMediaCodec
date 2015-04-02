@@ -3,18 +3,9 @@ package gti310.tp4.utility;
 import gti310.tp4.Main;
 import gti310.tp4.PPMReaderWriter;
 
-public class ImageManipulator {
+public class ImageManipulator implements IConstants{
 
-	// The RGB color space.
-	public static final int R = 0;
-	public static final int G = 1;
-	public static final int B = 2;
-
-	// The entire application assumes that the blocks are 8x8 squares.
-	public static final int BLOCK_SIZE = 8;
-	
-
-//**     CONVERSION     **\\
+	//**     CONVERSION     **\\
 	
 	public static float[][][] RGBToYCbCrImageConversion(int[][][] image){
 		float[][][] yCbCrImageResult = new float[image.length][image[0].length][image[0][0].length];
@@ -22,7 +13,7 @@ public class ImageManipulator {
 		
 		for (int i = 0; i < image[0].length; i++) { // on boucle sur le contenu de la seconde dimension du array()  normalement -> [0-256] 
 			for (int j = 0; j < image[0][i].length; j++) { // on boucle sur le contenu de la troisiemme dimension -> [0-256]
-				tempYCbCrResult = Converter.RGBToYCbCr(image[R][i][j], image[G][i][j], image[B][i][j]);
+				tempYCbCrResult = Converter.RGBToYCbCr(image[R][i][j], image[R][i][j], image[R][i][j]);
 				yCbCrImageResult[R][i][j] = tempYCbCrResult[R];
 				yCbCrImageResult[G][i][j] = tempYCbCrResult[G];
 				yCbCrImageResult[B][i][j] = tempYCbCrResult[B];
@@ -61,19 +52,19 @@ public class ImageManipulator {
 		for (int i = 0 ; i < originalArray.length; i++) { // boucler a travers les composantes
 			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-					for (int y = 0; y < Main.BLOCK_SIZE; y++) {
-						for (int x = 0; x < Main.BLOCK_SIZE ; x++) {
-							int valX = h * Main.BLOCK_SIZE + x;
-							int valY = v * Main.BLOCK_SIZE + y;
+					for (int y = 0; y < BLOCK_SIZE; y++) {
+						for (int x = 0; x < BLOCK_SIZE ; x++) {
+							int valX = h * BLOCK_SIZE + x;
+							int valY = v * BLOCK_SIZE + y;
 						
 							tempDctArray[y][x] = originalArray[i][valY][valX];
 						}
 					}
 					// effectuer la conversion avec la fonction de DCT
-					resultDctArray[i] = Converter.DCTConverter(tempDctArray);
+					resultDctArray[i][h][v] = Converter.DCTConverter(tempDctArray);
 					
 					// afficher result array
-	//				showDCTBlock(resultDctArray[i]);
+					showDCTBlock(resultDctArray[i]);
 				}
 			}
 		}
@@ -84,17 +75,17 @@ public class ImageManipulator {
 	
 	
 	public static float[][][] IDCTConversion(float[][][] originalArray){
-		float[][] tempDctArray = new float[8][8];
-		float[][][] resultDctArray = new float[3][8][8];
+		float[][] tempDctArray = new float[BLOCK_SIZE][BLOCK_SIZE];
+		float[][][] resultDctArray = new float[3][BLOCK_SIZE][BLOCK_SIZE];
 		int nbBlock = originalArray[0].length/8;
 		
 		for (int i = 0 ; i < originalArray.length; i++) { // boucler a travers les composantes
 			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-					for (int y = 0; y < Main.BLOCK_SIZE; y++) {
-						for (int x = 0; x < Main.BLOCK_SIZE ; x++) {
-							int valX = h * Main.BLOCK_SIZE + x;
-							int valY = v * Main.BLOCK_SIZE + y;
+					for (int y = 0; y < BLOCK_SIZE; y++) {
+						for (int x = 0; x < BLOCK_SIZE ; x++) {
+							int valX = h * BLOCK_SIZE + x;
+							int valY = v * BLOCK_SIZE + y;
 						
 							tempDctArray[y][x] = originalArray[i][valY][valX];
 						}
@@ -110,7 +101,155 @@ public class ImageManipulator {
 		return resultDctArray;
 	}
 	
+
+	public static float findAlpha(int facteurQualite){
+		float alpha = 0;
+		
+		if((facteurQualite >= 1) && (facteurQualite <= 50)){
+			alpha = 50 / facteurQualite;
+		}
+		else{
+			alpha = ((200 - (2 * facteurQualite)) / 100);
+		}
+		return alpha;
+	}
 	
+	
+	public static int[][][] quantification(float[][][] DCTArray, int facteurQualite){
+		
+		int[][][] arrayQuantifie = new int[3][BLOCK_SIZE][BLOCK_SIZE];
+		float alpha = -1;
+		
+		if(facteurQualite == 100){ // pas de changements
+			for (int j = 0; j < DCTArray[0].length; j++) {
+				for (int k = 0; k < DCTArray[0][0].length; k++) {
+					arrayQuantifie[Y][j][k] = (int) Math.round(DCTArray[Y][j][k]);
+					arrayQuantifie[Cb][j][k] = (int) Math.round(DCTArray[Cb][j][k]);
+					arrayQuantifie[Cr][j][k] = (int) Math.round(DCTArray[Cr][j][k]);
+				}
+			}
+		}
+		else{ // si facteur de qualite est autre que 100
+			alpha = findAlpha(facteurQualite);
+			for (int i = 0; i < DCTArray[0].length; i++) {
+				for (int j = 0; j < DCTArray[0][0].length; j++) {
+					arrayQuantifie[Y][i][j] =(int) Math.round(DCTArray[Y][i][j] / (alpha * QuantificationQyTable[i][j]));
+					arrayQuantifie[Cb][i][j] = (int) Math.round(DCTArray[Cb][i][j] / (alpha * QuantificationQcbQcrTable[i][j]));
+					arrayQuantifie[Cr][i][j] = (int) Math.round(DCTArray[Cr][i][j] / (alpha * QuantificationQcbQcrTable[i][j]));
+				}
+			}
+		}
+		
+		return arrayQuantifie;
+	}
+	
+	
+	
+	public static float[][][] reverseQuantification(int[][][] arrayQuantifie, int facteurQualite){
+		
+		float[][][] arrayQuantifieInverse = new float[3][BLOCK_SIZE][BLOCK_SIZE];
+		float alpha = -1;
+		
+		if(facteurQualite == 100){ // pas de changements
+			for (int j = 0; j < arrayQuantifie[0].length; j++) {
+				for (int k = 0; k < arrayQuantifie[0][0].length; k++) {
+					arrayQuantifieInverse[Y][j][k] =  Math.round(arrayQuantifie[Y][j][k]);
+					arrayQuantifieInverse[Cb][j][k] = Math.round(arrayQuantifie[Cb][j][k]);
+					arrayQuantifieInverse[Cr][j][k] = Math.round(arrayQuantifie[Cr][j][k]);
+				}
+			}
+		}
+		else{ // si facteur de qualite est autre que 100
+			alpha = findAlpha(facteurQualite);
+			for (int i = 0; i < arrayQuantifie[0].length; i++) {
+				for (int j = 0; j < arrayQuantifie[0][0].length; j++) {
+					arrayQuantifieInverse[Y][i][j] = (float) arrayQuantifie[Y][i][j] * (alpha * QuantificationQyTable[i][j]);
+					arrayQuantifieInverse[Cb][i][j] = (float) arrayQuantifie[Cb][i][j] * (alpha * QuantificationQcbQcrTable[i][j]);
+					arrayQuantifieInverse[Cr][i][j] = (float) arrayQuantifie[Cr][i][j] * (alpha * QuantificationQcbQcrTable[i][j]);
+				}
+			}
+		}
+		
+		return arrayQuantifieInverse;
+	}
+
+	
+	
+	// ZIG-ZAG -> source : http://rosettacode.org/wiki/Zig-zag_matrix
+
+	public static int[] Zig_Zag(int[][] QuantificationResult){
+		int size = BLOCK_SIZE;
+		int[] data = new int[64];
+		int i = 1;
+		int j = 1;
+
+		for (int element = 0; element < 64; element++){
+			data[element] = QuantificationResult[i - 1][j - 1];
+			
+			if ((i + j) % 2 == 0){ // Even stripes
+				if (j < size){
+					j++;
+				}
+				else{
+					i+= 2;
+				}
+				if (i > 1){
+					i--;
+				}
+			}
+			else{// Odd stripes
+				if (i < size){
+					i++;
+				}
+				else{
+					j+= 2;
+				}
+				if (j > 1){
+					j--;
+				}
+			}
+		}
+		return data;
+	}
+
+	/*
+	public static int[][] Zig_Zag(int size){
+		int[][] data = new int[size][size];
+		int i = 1;
+		int j = 1;
+
+		for (int element = 0; element < size * size; element++){
+			data[i - 1][j - 1] = element;
+			
+			if ((i + j) % 2 == 0){ // Even stripes
+				if (j < size){
+					j++;
+				}
+				else{
+					i+= 2;
+				}
+				if (i > 1){
+					i--;
+				}
+			}
+			else{// Odd stripes
+				if (i < size){
+					i++;
+				}
+				else{
+					j+= 2;
+				}
+				if (j > 1){
+					j--;
+				}
+			}
+		}
+		
+		return data;
+		
+	}
+*/
+
 
 //**     WRITER     ** \\					
 	
@@ -127,11 +266,11 @@ public class ImageManipulator {
 	
 //**     DISPLAY     **\\
 	
-	public static void show8x8List(float[][] array){
+	public static void show8x8List(int[][] array){
 		
-		for (int i = 0; i < array.length; i+=Main.BLOCK_SIZE) {
-			for (int j = 0; j < Main.BLOCK_SIZE; j++) {
-				for (int k = 0; k < Main.BLOCK_SIZE; k++) {
+		for (int i = 0; i < array.length; i+=BLOCK_SIZE) {
+			for (int j = 0; j < BLOCK_SIZE; j++) {
+				for (int k = 0; k < BLOCK_SIZE; k++) {
 					System.out.println("("+j+","+k+")->" + array[j][k]);
 				}
 			}
@@ -141,8 +280,8 @@ public class ImageManipulator {
 	
 	public static void showDCTBlock(float[][] array){
 		System.out.println("Block 8x8 DCT");
-		for (int y = 0; y < Main.BLOCK_SIZE; y++) {
-			for (int x = 0; x < Main.BLOCK_SIZE; x++) {
+		for (int y = 0; y < BLOCK_SIZE; y++) {
+			for (int x = 0; x < BLOCK_SIZE; x++) {
 				System.out.printf("%3.2f\t",array[y][x]);
 			}
 			System.out.println();
@@ -150,26 +289,22 @@ public class ImageManipulator {
 	}
 	
 	
-	// IL SEMBLE QUE LA MÉTHODE NE PERMETTE PAS DAFFICHER LES DONNES
-	// IL FAUDRA EN FAIRE UNE NOUVELLE POUR ADAPTER POUR LE DCT
 	public static void show8x8FloatMatrix(float[][][] array){ // testé avec les float pre-dct
 		
 		int valX = -1;
 		int valY = -1;
-		int nbBlock = (array[0][0].length/Main.BLOCK_SIZE);
+		int nbBlock = (array[0][0].length/BLOCK_SIZE);
 		
-		for (int i = 0 ; i < 3; i++) { // boucler a travers les composantes [Y,Cb,Cr]
+		for (int i = 0 ; i < array.length; i++) { // boucler a travers les composantes [Y,Cb,Cr]
 			for (int v = 0; v < nbBlock; v++) { // boucler a travers l'ensemble des blocs verticalement > Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers l'ensemble des blocs horizontalement -> X
 				   
 					System.out.printf("Block(%d,%d)\n",h,v);
 					
-					for (int y = 0; y < Main.BLOCK_SIZE; y++) { // boucler sur la hauteur d'un block
-						for (int x = 0; x < Main.BLOCK_SIZE ; x++) { // boucler sur la largeur du block
-							valX = h * Main.BLOCK_SIZE + x;
-							valY = v * Main.BLOCK_SIZE + y;
-					//		System.out.print(array[i][valY][valX]  + " ->"+"["+i+"]"+"["+valY+"]"+"["+valX+"]  " );
-				//			System.out.print(array[i][valY][valX]  );
+					for (int y = 0; y < BLOCK_SIZE; y++) { // boucler sur la hauteur d'un block
+						for (int x = 0; x < BLOCK_SIZE ; x++) { // boucler sur la largeur du block
+							valX = h * BLOCK_SIZE + x;
+							valY = v * BLOCK_SIZE + y;
 							System.out.printf("%3.2f\t",array[i][valY][valX]);
 						}
 						System.out.println();
@@ -188,82 +323,30 @@ public class ImageManipulator {
 		
 		System.out.println(nbBlock);
 		
-		for (int i = 0 ; i < 2; i++) { // boucler a travers les composantes
+		for (int i = 0 ; i < array.length; i++) { // boucler a travers les composantes
 			for (int v = 0; v< nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-					    System.out.printf("Block(%d,%d)\n",h,v);
-						for (int y = 0; y < 8; y++) {
-							
-							for (int x = 0; x < 8 ; x++) {
-							
+				    System.out.printf("Block(%d,%d)\n",h,v);
+					for (int y = 0; y < 8; y++) {
+						for (int x = 0; x < 8 ; x++) {
 							valX = h * 8 + x;
 							valY = v * 8 + y;
-							
 							System.out.printf("%d\t",array[i][valY][valX]);
 						}
-					    System.out.println();
+						System.out.println();
 					}
 				}
 			}
 		}
 	}
-
+	
+	
+	
+	
+	
+	
 	
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-/*
-public static void show8x8Matrix(float[][] array){
-	String str = "|\t";	
-	
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			str += array[i][j] + "\t";
-		}
-		System.out.println(str + "|");
-		str = "|\t";
-	}
-	System.out.println("\n");
-}
-*/
-
-
-
-/*
-public static void get8x8Matrix(float[][][] array){
-	float[][] tempDctArray = new float[8][8];
-
-	int nbBlock = array[0].length/8;
-	
-	for (int i = 0 ; i < 2; i++) { // boucler a travers les composantes
-		for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
-			for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-				for (int y = 0; y < 8; y++) {
-					for (int x = 0; x < 8 ; x++) {
-						int valX = h * 8 + x;
-						int valY = v * 8 + y;
-					
-						System.out.printf("%3.2f\t",array[i][valY][valX]);
-						tempDctArray[y][x] = array[i][valY][valX];
-					}
-					
-					System.out.println();
-				}
-				// envoyer a DCT
-			}
-		}
-	}
-}
-*/
-
 

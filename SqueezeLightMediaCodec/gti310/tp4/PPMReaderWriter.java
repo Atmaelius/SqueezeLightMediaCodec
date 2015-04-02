@@ -1,5 +1,7 @@
 package gti310.tp4;
 
+import gti310.tp4.utility.IConstants;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -109,13 +111,13 @@ public class PPMReaderWriter {
 			 */
 			int h = Integer.parseInt(height);
 			int w = Integer.parseInt(width);
-			int[][][] image = new int[Main.COLOR_SPACE_SIZE][h][w];
+			int[][][] image = new int[IConstants.COLOR_SPACE_SIZE][h][w];
 			int offset = 0;
 			for(int i = 0; i < h; i++) {
 				for(int j = 0; j < w ; j++) {
-					image[Main.R][i][j] = (int)(bytes[offset] & 0xff);
-					image[Main.G][i][j] = (int)(bytes[offset + 1] & 0xff);
-					image[Main.B][i][j] = (int)(bytes[offset + 2] & 0xff);
+					image[IConstants.R][i][j] = (int)(bytes[offset] & 0xff);
+					image[IConstants.G][i][j] = (int)(bytes[offset + 1] & 0xff);
+					image[IConstants.B][i][j] = (int)(bytes[offset + 2] & 0xff);
 					offset += 3;
 				}
 			}
@@ -177,9 +179,9 @@ public class PPMReaderWriter {
 			int offset = 0;
 			for(int i = 0; i < image[0].length; i++) {
 				for(int j = 0; j < image[0][0].length; j++) {
-					bytes[offset]     = (byte)(image[Main.R][i][j]);
-					bytes[offset + 1] = (byte)(image[Main.G][i][j]);
-					bytes[offset + 2] = (byte)(image[Main.B][i][j]);
+					bytes[offset]     = (byte)(image[IConstants.R][i][j]);
+					bytes[offset + 1] = (byte)(image[IConstants.G][i][j]);
+					bytes[offset + 2] = (byte)(image[IConstants.B][i][j]);
 					offset += 3;
 				}
 			}
