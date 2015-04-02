@@ -1,6 +1,6 @@
 package gti310.tp4;
 
-import gti310.tp4.utility.PixelManipulation;
+import gti310.tp4.utility.ImageManipulator;
 
 /**
  * The Main class is where the different functions are called to either encode
@@ -65,13 +65,12 @@ public class Main {
 	//		PixelManipulation.show8x8IntMatrix(originalImageArray);
 			
 			// faire la conversion des couleurs du array de RGB vers YCbCr
-			float[][][] YCbCrImageArray = PixelManipulation.RGBToYCbCrImageConversion(originalImageArray);
+			float[][][] YCbCrImageArray = ImageManipulator.RGBToYCbCrImageConversion(originalImageArray);
 			
-		//	PixelManipulation.show8x8FloatMatrix(YCbCrImageArray);
-			float[][][] DCTResult = PixelManipulation.DCTConversion(YCbCrImageArray);
-			
-			PixelManipulation.show8x8FloatMatrix(DCTResult);
-
+		//	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
+			float[][][] DCTResult = ImageManipulator.DCTConversion(YCbCrImageArray);
+		
+			System.out.println("RESULTAT FINAL");
 
 
 			
