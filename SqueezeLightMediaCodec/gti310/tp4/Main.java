@@ -1,5 +1,9 @@
 package gti310.tp4;
 
+import java.io.FileNotFoundException;
+
+import gti310.tp4.utility.DataDisplay;
+import gti310.tp4.utility.IConstants;
 import gti310.tp4.utility.ImageManipulator;
 
 /**
@@ -11,21 +15,22 @@ import gti310.tp4.utility.ImageManipulator;
  * @author François Caron
  */
 
-public class Main {
+public class Main implements IConstants{
 
 	/**
 	 * The application's entry point.
 	 * @param args
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		System.out.println("Squeeze Light Media Codec !");
 		
 		int facteurQualite = -1;
 		
 		// donner des valeurs aux args etbypasser le set on run 
 		args[0] = "50";
-		args[1] = "Media/monalisa.ppm";
-		args[2] = "Media/monalisa_result.ppm";
+		args[1] = "Media/lena.ppm";
+		args[2] = "Media/lena_result.ppm";
 		
 		/**
 		 * 3 parametres:
@@ -50,23 +55,31 @@ public class Main {
 			// faire la conversion des couleurs du array de RGB vers YCbCr
 			float[][][] YCbCrImageArray = ImageManipulator.RGBToYCbCrImageConversion(originalImageArray);
 			
+	//		DataDisplay.printToFile(DISPLAYPATH2, YCbCrImageArray);
+
+			
 		//	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
 			float[][][] DCTResult = ImageManipulator.DCTConversion(YCbCrImageArray);
 			
-	/*		
+		//DataDisplay.printToFile(DISPLAYPATH, DCTResult);
+			
 			// call quantification -> passer facteur qualite en param
-			int[][][] QuantificationResult = ImageManipulator.quantification(DCTResult, facteurQualite);
+			int[][][] QuantificationResult = ImageManipulator.quantification(DCTResult, 90);
+	
+	//		DataDisplay.printToFile(DISPLAYPATH, QuantificationResult);
 			
-
-//			ImageManipulator.show8x8IntMatrix(QuantificationResult);
-		
-			int[] data = ImageManipulator.Zig_Zag(QuantificationResult[0]);
+			// call zigzag passe les tableaux 8x8
+			int[][][][] ZigZagResult = ImageManipulator.zigzagger(QuantificationResult);
 			
+			ImageManipulator.DPCM(ZigZagResult);
+			
+			
+		/*	
 			for (int i = 0; i < data.length; i++) {
 				System.out.print(data[i]+", ");
 			}
+			*/
 			
-*/			
 		}
 		else if(args.length == 2){ // 2 param donc decodage
 			// decoder(args[0], args[1]);

@@ -3,6 +3,10 @@ package gti310.tp4.utility;
 public interface IConstants {
 
 
+	
+	public static final String DISPLAYPATH= "./Recyclage/test.txt";
+	public static final String DISPLAYPATH2 = "./Recyclage/test2.txt";
+	
 	// The entire application assumes that the blocks are 8x8 squares.
 	public static final int BLOCK_SIZE = 8;
 	
@@ -88,6 +92,35 @@ public interface IConstants {
 		}
 	};
 	
+	
+	// Celles du ppt
+	public static final int[][][] TestQuantificationQyTable = new int[][][]{
+		{
+		{16, 11, 10, 16, 24, 40, 51, 61},
+		{12, 12, 14, 19, 26, 58, 60, 55},
+		{14, 13, 16, 24, 40, 57, 69, 56},
+		{14, 17, 22, 29, 51, 87, 80, 62},
+		{18, 22, 37, 56, 68, 109, 103, 77},
+		{24, 35, 55, 64, 81, 104, 113, 92},
+		{49, 64, 78, 87, 103, 121, 120, 101},
+		{72, 92, 95, 98, 112, 100, 103, 99}
+		}
+		};
+	
+
+	// Celle du ppt
+	public static final float[][] TestQuantificationQcbQcrTable = new float[][]{
+		{17,18,24,47,99,99,99,99},
+		{18,21,26,66,99,99,99,99},
+		{24,26,56,99,99,99,99,99},
+		{47,66,99,99,99,99,99,99},
+		{99,99,99,99,99,99,99,99},
+		{99,99,99,99,99,99,99,99},
+		{99,99,99,99,99,99,99,99},
+		{99,99,99,99,99,99,99,99}
+	};
+
+	// celle du ppt
 	public static final float[][][] TestArrayResultFromFloatQuantification = new float[][][]{
 		{
 			{96,6,-1,0,0,0,0,0},
@@ -101,6 +134,8 @@ public interface IConstants {
 		}
 		};
 	
+	
+	// celle du ppt
 	public static final int[][][] TestArrayResultFromIntQuantification = new int[][][]{
 		{
 		{96,6,-1,0,0,0,0,0},
@@ -114,29 +149,4 @@ public interface IConstants {
 		}
 		};
 
-	// Celles du ppt
-	public static final float[][] TestQuantificationQyTable = new float[][]{
-		{16, 11, 10, 16, 24, 40, 51, 61},
-		{12, 12, 14, 19, 26, 58, 60, 55},
-		{14, 13, 16, 24, 40, 57, 69, 56},
-		{14, 17, 22, 29, 51, 87, 80, 62},
-		{18, 22, 37, 56, 68, 109, 103, 77},
-		{24, 35, 55, 64, 81, 104, 113, 92},
-		{49, 64, 78, 87, 103, 121, 120, 101},
-		{72, 92, 95, 98, 112, 100, 103, 99}
-	};
-
-	// Celle du ppt -> please do not fuck up
-	public static final float[][] TestQuantificationQcbQcrTable = new float[][]{
-		{17,18,24,47,99,99,99,99},
-		{18,21,26,66,99,99,99,99},
-		{24,26,56,99,99,99,99,99},
-		{47,66,99,99,99,99,99,99},
-		{99,99,99,99,99,99,99,99},
-		{99,99,99,99,99,99,99,99},
-		{99,99,99,99,99,99,99,99},
-		{99,99,99,99,99,99,99,99}
-	};
-
-	
 }

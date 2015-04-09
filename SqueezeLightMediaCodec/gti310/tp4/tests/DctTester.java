@@ -1,5 +1,6 @@
 package gti310.tp4.tests;
 
+import gti310.tp4.utility.DataDisplay;
 import gti310.tp4.utility.ImageManipulator;
 
 public class DctTester {
@@ -35,25 +36,25 @@ public class DctTester {
 	};
 	
 	
-	//float[][][] convertedResult  = ImageManipulator.DCTConversion(ArrayDCTTester);
-//	ImageManipulator.showDCTBlock(convertedResult[0]);
+	float[][][] convertedResult  = ImageManipulator.DCTConversion(ArrayDCTTester);
+	DataDisplay.showDCTBlock(convertedResult[0]);
+	
 	
 	/*
-	
 	for (int i = 0; i < convertedResult[0].length; i++) {
 		for (int j = 0; j < convertedResult[0].length; j++) {
-			if(convertedResult[0][i][j] != ArrayDCTResult[0][i][j]){
+			if(convertedResult[i][j] != ArrayDCTResult[i][j]){
 				System.out.println("ERROR:"+"I: " + i + " J: " + j);
 			}
 		}
 	}
-	
 	*/
-
 	
+
+	/*
 	float[][][] revertedResult  = ImageManipulator.IDCTConversion(ArrayDCTResult);
 
-	ImageManipulator.showDCTBlock(revertedResult[0]);
+	DataDisplay.showDCTBlock(revertedResult[0]);
 	
 	for (int i = 0; i < revertedResult[0].length; i++) {
 		for (int j = 0; j < revertedResult[0].length; j++) {
@@ -63,7 +64,7 @@ public class DctTester {
 		}
 	}
 	
-	
+	*/
 
 	
 
