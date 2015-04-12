@@ -71,7 +71,11 @@ public class Main implements IConstants{
 			// call zigzag passe les tableaux 8x8
 			int[][][][] ZigZagResult = ImageManipulator.zigzagger(QuantificationResult);
 			
-			ImageManipulator.DPCM(ZigZagResult);
+			
+			
+			int[][][] DCArray = ImageManipulator.entropyCoding(ZigZagResult);
+			
+		//	int[][][] ACArray = ImageManipulator.
 			
 			
 		/*	

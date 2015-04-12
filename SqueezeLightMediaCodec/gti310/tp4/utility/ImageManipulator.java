@@ -1,15 +1,16 @@
 package gti310.tp4.utility;
 
-import sun.org.mozilla.javascript.ast.Block;
-import gti310.tp4.Entropy;
+import java.util.ArrayList;
 import gti310.tp4.PPMReaderWriter;
-import gti310.tp4.utility.DataDisplay;
 
 public class ImageManipulator implements IConstants{
 
 
 	//**     CONVERSION     **\\
-
+	/** Fonction qui convertis une image RGB en format YCbCr
+	 * @param image	le array de int en 3 dimensions représentant l'image
+	 * @return	yCbCbImageResult	Array 3 dimensions de float représentant l'image convertie en YCbCr
+	 */
 	public static float[][][] RGBToYCbCrImageConversion(int[][][] image){
 		float[][][] yCbCrImageResult = new float[image.length][image[0].length][image[0][0].length];
 		float [] tempYCbCrResult = {0,0,0};
@@ -25,17 +26,20 @@ public class ImageManipulator implements IConstants{
 		return yCbCrImageResult;
 	}
 
-
+	/** Fonction qui convertis une image YCbCb en format RGB
+	 * @param image	le array de float en 3 dimensions représentant l'image
+	 * @return	RGBImageResult	Array 3 dimensions de int représentant l'image convertie en YCbCr
+	 */
 	public static int[][][] YCbCrToRGBImageConversion(float[][][] image){
 		int[][][] RGBImageResult = new int[image.length][image[0].length][image[0][0].length];
 		int[] tempRGBResult = {0,0,0};
 
 		for (int i = 0; i < image[0].length; i++) { // on boucle sur le contenu de la seconde dimension du array()  normalement -> [0-256] 
 			for (int j = 0; j < image[0][i].length; j++) { // on boucle sur le contenu de la troisiemme dimension -> [0-256]
-				tempRGBResult = Converter.YCbCrToRGB(image[R][i][j], image[G][i][j], image[B][i][j]);
-				RGBImageResult[R][i][j] = tempRGBResult[R];
-				RGBImageResult[G][i][j] = tempRGBResult[G];
-				RGBImageResult[B][i][j] = tempRGBResult[B];
+				tempRGBResult = Converter.YCbCrToRGB(image[Y][i][j], image[Cb][i][j], image[Cr][i][j]);
+				RGBImageResult[Y][i][j] = tempRGBResult[Y];
+				RGBImageResult[Cb][i][j] = tempRGBResult[Cb];
+				RGBImageResult[Cr][i][j] = tempRGBResult[Cr];
 			}
 		}
 		return RGBImageResult;
@@ -114,15 +118,12 @@ public class ImageManipulator implements IConstants{
 	public static float[][][] DCTConversion(float[][][] originalArray){
 		float[][] tempDctArray = new float[8][8];
 		float[][] resultDctArray = new float[8][8];
-		float[][][] returnedDctArray = new float[3][256][256];
-
+		float[][][] returnedDctArray = new float[COLOR_SPACE_SIZE][256][256];
 		int nbBlock = originalArray[0].length/8;
-		int indexCompteur = 0;
-
 		int valX = 0;
 		int valY = 0;
 
-		for (int i = 0 ; i < originalArray.length; i++) { // boucler a travers les composantes
+		for (int i = 0 ; i < COLOR_SPACE_SIZE; i++) { // boucler a travers les composantes
 			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
 					for (int y = 0; y < BLOCK_SIZE; y++) {
@@ -141,7 +142,6 @@ public class ImageManipulator implements IConstants{
 					// afficher result array
 					//		DataDisplay.showDCTBlock(resultDctArray[i], h, v, indexCompteur );
 
-					indexCompteur++;
 
 					for (int k = 0; k < BLOCK_SIZE; k++) {
 						for (int l = 0;  l < BLOCK_SIZE; l++) {
@@ -156,7 +156,7 @@ public class ImageManipulator implements IConstants{
 
 		try {
 			//	printToFile("/test.txt", resultDctArray);
-			DataDisplay.printToFile(DISPLAYPATH, returnedDctArray);
+		//	DataDisplay.printToFile(DISPLAYPATH, returnedDctArray);
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -454,71 +454,122 @@ public class ImageManipulator implements IConstants{
  */
 
 	
-	public static void DPCM(int[][][][] ZigZagArray){
+
+	
+	public static int[][][] entropyCoding(int[][][][] ZigZagArray){
+		
+		int[][][] DCArray = createDCArray(ZigZagArray);
+		int[][][] ACArray = createACArray(ZigZagArray);
+
+//		RLC(ACArray);
+//		DPCM(DCArray);
+		
+		
+		return null;
+	}
+	
+	
+	public static int[][][] createDCArray(int[][][][] ZigZagArray){
 
 		int nbBlock = ZigZagArray[0].length;
-		int[] valeurs = new int[1024];
-		int index = 0;
+		int[][][] returnedDCArray = new int[3][nbBlock][nbBlock];
 
 		for (int i = 0 ; i < ZigZagArray.length; i++) { // boucler a travers les composantes
 			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
-				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-
-					if(index < 1024){
-						valeurs[index] = ZigZagArray[i][h][v][0];
-					}
-					index++;
+				returnedDCArray[i][v][0] = ZigZagArray[i][v][0][0];
+				for (int h = 1; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
+					returnedDCArray[i][v][h] = ZigZagArray[i][v][h][0] - ZigZagArray[i][v][h-1][0];
 				}
 			}
 		}
+		
+		return returnedDCArray;
+	}
+	
+	public static int[][][] createACArray(int[][][][] ZigZagArray){
 
-		int temp = 0;
-		int[] diff = new int[1024];
-		
-		diff[0] =  valeurs[0];
-		
-		for (int i = 1; i < valeurs.length-1; i++) {
-			diff[i] = valeurs[i] - valeurs[i-1];
-		}
-		diff[1023] = valeurs[1023] - valeurs[1022];
-		
-		
-		for (int j = 0; j < diff.length; j++) {
-			Entropy.writeDC(diff[j]);
-		}
-		
-		
-		
-		
-		
 		/*
-		 // par apres
-		for (int i = 0 ; i < ZigZagArray.length; i++) { // boucler a travers les composantes
-			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
-				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-
-					if(index < 1024){
-						ZigZagArray[i][h][v][0] = diff[index];
-					}
-					index++;
-				}
-			}
-		}
+		// boucler sur le tableau zigzag,
+		// vérifier chacune des données sauf le 0,0
+		composer des couples(nb repetition de zero, valeur)
+		recombiner en array 3 dimension [espace][index][nbZero, valeur]
 		*/
 		
-		System.out.println("HELL-O");
+		int nbBlock = ZigZagArray[0].length;
+		int valeur = 0;
+		int nbZeros = 0;
+		int[] couple = new int[2];
+		ArrayList<int[]> ar = new ArrayList<int[]>();
+
+		int[][][] returnedACArrayAbusivementEnorme = new int[3][20000][2];
+
+		for (int i = 0 ; i < ZigZagArray.length; i++) { // boucler a travers les composantes
+			ar.clear();
+			valeur = 0;
+			
+			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
+				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
+					for (int j = 1; j < ZigZagArray[i][v][h].length-1; j++) {
+						
+						// on ignore le premier nombre et on identifie les nombre et on cree une paire (nb de zeros précédant, valeur )
+						//96,6,-1,-1,0,-1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+						//(0,6)(0,-1)(0,-1)(1,-1)(3,1)(2,1)
+						valeur = ZigZagArray[i][v][h][j];
+						
+						if(valeur != 0){
+							// il faut absolument ré-initialiser le array couple car il est passé en référence au arraylist
+							// et ainsi a chaque ajout le contenu complet de l'arraylist change pour le nouveau couple
+							// http://www.coderanch.com/t/580391/java/java/Vector-object-overwritten-adding-element
+							couple = new int[2];
+							couple[0] = nbZeros;
+							couple[1] = valeur;
+					
+							ar.add(couple);
+							nbZeros = 0;
+
+						}
+						else{
+							nbZeros++;
+						}
+					}
+				}
+			}
+			
+			
+			/*
+				on se retrouve avec 3 arrayLists
+					Size	Mod
+				Y	17011	17012
+				Cb	4207	21215
+				Cr	4437	25653
+			*/
+				
+			System.out.println("TO ARRAY");
+			// String[] stringArray = list.toArray(new String[list.size()]);
+			//returnedACArray[i] = ar.toArray(new int[ar.size()]);
+			
+			
+			for (int j = 0; j < ar.size(); j++) {
+				returnedACArrayAbusivementEnorme[i][j] = ar.get(j);
+			}
+
+			System.out.println("AFTER");
+			// pour la premiere dimension on a 17010 elements au lieu de 65536
+		}
 		
+		return returnedACArrayAbusivementEnorme;
 	}
 
-
-
+	
 //**     WRITER     ** \\					
 
 	public static void writeRGBFile(String path, int[][][] intArray){
 		PPMReaderWriter.writePPMFile(path, intArray);
 	}
 	
-	
+	/*
+	 * Function to write a file
+	 */
 	public static void writeYCbCrFile(String path, float[][][] floatArray){
 		PPMReaderWriter.writePPMFile(path, YCbCrToRGBImageConversion(floatArray));
 	}
