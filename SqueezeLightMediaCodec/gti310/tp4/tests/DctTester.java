@@ -1,8 +1,11 @@
 package gti310.tp4.tests;
 
+import gti310.tp4.utility.DCT;
 import gti310.tp4.utility.DataDisplay;
-import gti310.tp4.utility.ImageManipulator;
 
+/**
+ * @author eric
+ */
 public class DctTester {
 
 	
@@ -36,7 +39,7 @@ public class DctTester {
 	};
 	
 	
-	float[][][] convertedResult  = ImageManipulator.DCTConversion(ArrayDCTTester);
+	float[][][] convertedResult  = DCT.DCTConversion(ArrayDCTTester);
 	DataDisplay.showDCTBlock(convertedResult[0]);
 	
 	

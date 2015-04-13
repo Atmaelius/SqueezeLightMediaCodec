@@ -1,7 +1,9 @@
 package gti310.tp4.utility;
+/**
+ * @author eric
+ */
 
 public interface IConstants {
-
 
 	
 	public static final String DISPLAYPATH= "./Recyclage/test.txt";

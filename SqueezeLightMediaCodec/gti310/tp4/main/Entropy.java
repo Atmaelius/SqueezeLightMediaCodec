@@ -1,4 +1,4 @@
-package gti310.tp4;
+package gti310.tp4.main;
 
 /**
  * The Entropy class is used to write the DC and AC coefficients after DPCM or

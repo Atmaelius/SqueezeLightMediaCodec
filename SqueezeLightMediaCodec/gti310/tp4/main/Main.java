@@ -1,10 +1,15 @@
-package gti310.tp4;
+package gti310.tp4.main;
 
 import java.io.FileNotFoundException;
 
+import gti310.tp4.utility.ColorConverter;
+import gti310.tp4.utility.DCT;
 import gti310.tp4.utility.DataDisplay;
+import gti310.tp4.utility.EntropyCoding;
 import gti310.tp4.utility.IConstants;
 import gti310.tp4.utility.ImageManipulator;
+import gti310.tp4.utility.Quantification;
+import gti310.tp4.utility.ZigZag;
 
 /**
  * The Main class is where the different functions are called to either encode
@@ -51,23 +56,23 @@ public class Main implements IConstants{
 //	PixelManipulation.show8x8IntMatrix(originalImageArray);
 			
 			// faire la conversion des couleurs du array de RGB vers YCbCr
-			float[][][] YCbCrImageArray = ImageManipulator.RGBToYCbCrImageConversion(originalImageArray);
+			float[][][] YCbCrImageArray = ColorConverter.RGBToYCbCrImageConversion(originalImageArray);
 //	DataDisplay.printToFile(DISPLAYPATH2, YCbCrImageArray);
 //	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
 			
-			float[][][] DCTResult = ImageManipulator.DCTConversion(YCbCrImageArray);
+			float[][][] DCTResult = DCT.DCTConversion(YCbCrImageArray);
 //  DataDisplay.printToFile(DISPLAYPATH, DCTResult);
 			
 			// call quantification -> passer facteur qualite en param
-			int[][][] QuantificationResult = ImageManipulator.quantification(DCTResult, 90);
+			int[][][] QuantificationResult = Quantification.quantification(DCTResult, 90);
 	DataDisplay.printToFile(DISPLAYPATH, QuantificationResult);
 			
 			// call zigzag passe les tableaux 8x8
-			int[][][][] ZigZagResult = ImageManipulator.zigzagger(QuantificationResult);
+			int[][][][] ZigZagResult = ZigZag.zigzagger(QuantificationResult);
 			
 			DataDisplay.printToFile(DISPLAYPATH, ZigZagResult[0]);
 			
-			ImageManipulator.entropyCoding(ZigZagResult, args[2]);
+			EntropyCoding.entropyCoding(ZigZagResult, args[2]);
 			
 		}
 		else if(args.length == 2){ // 2 param donc decodage

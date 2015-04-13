@@ -1,4 +1,4 @@
-package gti310.tp4;
+package gti310.tp4.main;
 
 import gti310.tp4.utility.IConstants;
 

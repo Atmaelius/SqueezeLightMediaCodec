@@ -1,6 +1,6 @@
 package Recyclage;
 
-import gti310.tp4.PPMReaderWriter;
+import gti310.tp4.main.PPMReaderWriter;
 
 public class Dump {
 /*

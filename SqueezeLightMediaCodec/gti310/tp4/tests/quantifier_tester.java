@@ -1,10 +1,12 @@
 package gti310.tp4.tests;
 
 import java.io.FileNotFoundException;
-
 import gti310.tp4.utility.DataDisplay;
 import gti310.tp4.utility.IConstants;
-import gti310.tp4.utility.ImageManipulator;
+import gti310.tp4.utility.Quantification;
+/**
+ * @author eric
+ */
 
 public class quantifier_tester implements IConstants {
 
@@ -35,7 +37,7 @@ public class quantifier_tester implements IConstants {
 		
 		
 		// INVERSE
-		float[][][] arrayTestQuantificationInverseResult = ImageManipulator.reverseQuantification(TestArrayResultFromIntQuantification, 50);
+		float[][][] arrayTestQuantificationInverseResult = Quantification.reverseQuantification(TestArrayResultFromIntQuantification, 50);
 	
 		DataDisplay.show8x8FloatMatrix(arrayTestQuantificationInverseResult);
 		//DataDisplay.printToFile(DISPLAYPATH, arrayTestQuantificationInverseResult);
