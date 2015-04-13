@@ -82,8 +82,11 @@ public class DataDisplay implements IConstants{
 		for (int i = 0; i < array.length; i+=BLOCK_SIZE) {
 			for (int j = 0; j < BLOCK_SIZE; j++) {
 				for (int k = 0; k < BLOCK_SIZE; k++) {
-					System.out.println("("+j+","+k+")->" + array[j][k]);
+					//System.out.println("("+j+","+k+")->" + array[j][k]);
+					System.out.print(array[j][k]+", ");
+					
 				}
+				System.out.println();
 			}
 		}
 	}

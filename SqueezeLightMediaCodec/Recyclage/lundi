@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import gti310.tp4.Entropy;
 import gti310.tp4.PPMReaderWriter;
-import gti310.tp4.SZLReaderWriter;
 
 public class ImageManipulator implements IConstants{
 
@@ -297,88 +296,9 @@ public class ImageManipulator implements IConstants{
 		}
 		return data;
 	}
-	
-	
-	/**
-	 * Fonction qui sers a effectuer le traitement de parcours Zig-Zag afin de rassemble les zéros ensembles le plus possible
-	 * @param QuantificationResult	Le résultat de la quantification
-	 * @return	returnedZigZagArray	Le array
-	 */
-	public static int[][][][] reverseZigzagger(int[][][][] ZigZagArray){
-// pas fonctionnel
-		int valX = 0;
-		int valY = 0;
-		int nbBlock = ZigZagArray[0].length;
-		int index = 0;
-		int[][] tempZigZagArray = new int[nbBlock][nbBlock];
-		int[][][][] returnedZigZagArray = new int[COLOR_SPACE_SIZE][nbBlock][nbBlock][BLOCK_SIZE*BLOCK_SIZE];
-		
-		for (int i = 0 ; i < COLOR_SPACE_SIZE; i++) { // boucler a travers les composantes
-			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
-				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-					for (int y = 0; y < BLOCK_SIZE; y++) {
-						for (int x = 0; x < BLOCK_SIZE ; x++) {
-							valX = h * BLOCK_SIZE + x;
-							valY = v * BLOCK_SIZE + y;
-							
-							tempZigZagArray[y][x] = ZigZagArray[i][v][h][index];
-							index++;
-						}
-					}
-					returnedZigZagArray[i][v][h] = Zig_Zag(tempZigZagArray);
-				}
-			}
-		}
-		return returnedZigZagArray;
-	}
-	
-	
-	/**
-	 * Traverser un tableau 8x8 et retourner les valeurs sous forme de array 1 dimension
-	 * @param array
-	 * @return
-	 * Inspiré depuis http://rosettacode.org/wiki/Zig-zag_matrix
-	 */
-	public static int[][] reverseZig_Zag(int[] array){
-		//pas fonctionnel
-		int size = BLOCK_SIZE;
-		int[][] data = new int[8][8];
-		int i = 1;
-		int j = 1;
-	
-		for (int element = 0; element < 64; element++){
-			data[i - 1][j-1] = array[element];
-			//	data[element] = array[i - 1][j - 1];
-	
-			if ((i + j) % 2 == 0){ // Even stripes
-				if (j < size){
-					j++;
-				}
-				else{
-					i+= 2;
-				}
-				if (i > 1){
-					i--;
-				}
-			}
-			else{// Odd stripes
-				if (i < size){
-					i++;
-				}
-				else{
-					j+= 2;
-				}
-				if (j > 1){
-					j--;
-				}
-			}
-		}
-		return data;
-	}
 
 	
-	
-	public static void entropyCoding(int[][][][] ZigZagArray, String fileName){
+	public static int[][][] entropyCoding(int[][][][] ZigZagArray){
 		
 		int[][][][] entropyArray = DCDPCM(ZigZagArray);
 
@@ -386,30 +306,55 @@ public class ImageManipulator implements IConstants{
 		// on appele la fonction qui renvoie le bloc actuel de AC encodé en RLC
 		//on écris le DC 
 		// on écris les AC trouvés
+		Arraylist<int[]> RLEValues = ACRLE(ZigZagArray);
 		
-		int nbBlock = 32;
 		
-		ArrayList<int[]> RLEValues = new ArrayList<int[]>();
 		
-			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> 32
-				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> 32
-					for (int i = 0; i < COLOR_SPACE_SIZE; i++) { // boucler sur les couleurs
-						RLEValues = ACRLE(ZigZagArray[i][v][h]);
-						
-						// écrire les valeurs
-						Entropy.writeDC(entropyArray[i][v][h][0]);
-						
-						for (int j = 0; j < RLEValues.size(); j++) {
-							Entropy.writeAC(RLEValues.get(j)[0], RLEValues.get(j)[1]);
-						}
-					}
+	//	int[][][] ACArray = createACArray(ZigZagArray);
+		// envoie les valeurs dans le buffer d'écriture
+		
+		
+		
+		/*
+		// envoyer les valeurs dans le buffer d'écriture
+		for (int i = 0 ; i < DCArray.length; i++) { // boucler a travers les composantes
+			for (int v = 0; v < DCArray[0].length; v++) { // boucler a travers les blocs verticaux identifiés -> Y
+				for (int h = 0; h < DCArray[0][0].length; h++) { // boucler a travers les blocs horizontaux -> X
+					Entropy.writeDC(DCArray[i][v][h]);
 				}
 			}
-			
-			SZLReaderWriter.writeSZLFile(fileName, 256,256,50);
-			System.out.println("IMAGE ECRITE");
+		}
+		*/
 		
+		
+//		RLC(ACArray);
+//		DPCM(DCArray);
+		
+		return null;
 	}
+	
+/*
+	/**
+	 * Fonction qui crée le array DC a partir du array resultant du ZigZag
+	 * @param ZigZagArray
+	 * @return returnedDCArray	Le array issu du traitement DC
+	 *//*
+	public static int[][][] DCPM(int[][][][] ZigZagArray){
+
+		int nbBlock = ZigZagArray[0].length;
+		int[][][] returnedDCArray = new int[COLOR_SPACE_SIZE][nbBlock][nbBlock];
+
+		for (int i = 0 ; i < ZigZagArray.length; i++) { // boucler a travers les composantes
+			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
+				returnedDCArray[i][v][0] = ZigZagArray[i][v][0][0];
+				for (int h = 1; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
+					returnedDCArray[i][v][h] = ZigZagArray[i][v][h][0] - ZigZagArray[i][v][h-1][0];
+				}
+			}
+		}
+		return returnedDCArray;
+	}
+	*/
 	
 	
 	/**
@@ -434,7 +379,7 @@ public class ImageManipulator implements IConstants{
 		}
 		return ZigZagArray;
 	}
-
+	
 	
 	/**
 	 * Fonction qui crée un array AC a partir du array résultant du ZigZag
@@ -447,10 +392,11 @@ public class ImageManipulator implements IConstants{
 		int nbZeros = 0;
 		int[] couple = new int[2];
 		ArrayList<int[]> ar = new ArrayList<int[]>();
-		
+
+		int[][][] returnedACArrayAbusivementEnorme = new int[COLOR_SPACE_SIZE][20000][2];
+
 		ar.clear();
 		valeur = 0;
-		
 		for (int l = 1; l < BLOCK_SIZE * BLOCK_SIZE-1; l++) { // boucler sur la longueur -> 64
 			valeur = block[l];
 			if(valeur != 0){
@@ -468,6 +414,7 @@ public class ImageManipulator implements IConstants{
 				nbZeros++;
 			}
 			
+			System.out.println("ACTUEL:" + l);
 			if(l == ((BLOCK_SIZE * BLOCK_SIZE)-2)){
 				couple = new int[2];
 				couple[0] = nbZeros;
@@ -480,6 +427,182 @@ public class ImageManipulator implements IConstants{
 		return ar;
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Fonction qui crée un array AC a partir du array résultant du ZigZag
+	 * @param ZigZagArray
+	 * @return
+	 *//*
+	public static int[][][][] ACRLE(int[][][][] entropyArray){
+
+		int nbBlock = entropyArray[0].length; // 3x32x32x64
+		int valeur = 0;
+		int nbZeros = 0;
+		int[] couple = new int[2];
+		ArrayList<int[]> ar = new ArrayList<int[]>();
+
+		int[][][] returnedACArrayAbusivementEnorme = new int[COLOR_SPACE_SIZE][20000][2];
+
+		for (int i = 0 ; i < COLOR_SPACE_SIZE; i++) { // boucler a travers les composantes
+			ar.clear();
+			valeur = 0;
+			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> 32
+				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> 32
+					for (int l = 1; l < BLOCK_SIZE * BLOCK_SIZE-1; l++) { // boucler sur la longueur -> 64
+
+						// on ignore le premier nombre et on identifie les nombre et on cree une paire (nb de zeros précédant, valeur )
+						//96,6,-1,-1,0,-1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+						//(0,6)(0,-1)(0,-1)(1,-1)(3,1)(2,1)
+						valeur = entropyArray[i][v][h][l];
+						
+						if(valeur != 0){
+							// il faut absolument ré-initialiser le array couple car il est passé en référence au arraylist
+							// et ainsi a chaque ajout le contenu complet de l'arraylist change pour le nouveau couple
+							// http://www.coderanch.com/t/580391/java/java/Vector-object-overwritten-adding-element
+							couple = new int[2];
+							couple[0] = nbZeros;
+							couple[1] = valeur;
+					
+							ar.add(couple);
+							nbZeros = 0;
+
+						}
+						else{
+							nbZeros++;
+						}
+						
+						System.out.println("ACTUEL:" + l);
+						if(l == ((BLOCK_SIZE * BLOCK_SIZE)-2)){
+							couple = new int[2];
+							couple[0] = nbZeros;
+							couple[1] = 0;
+					
+							ar.add(couple);
+							nbZeros = 0;
+						}
+					}
+				}
+		
+//		return returnedACArrayAbusivementEnorme;
+			}
+
+			System.out.println("TO ARRAY");
+		// selon l'énoncé, dans la méthode décriture du fichier, il semblerais que le AC doit pouvoir etre écrit en 8x8
+			for (int j = 0; j < ar.size(); j++) {
+				returnedACArrayAbusivementEnorme[i][j] = ar.get(j);
+			}
+		}
+			return null;
+	}
+	
+	*/
+	
+	
+	/**
+	 * Fonction qui crée un array AC a partir du array résultant du ZigZag
+	 * @param ZigZagArray
+	 * @return
+	 *//*
+	public static int[][][] createACArray8x8(int[][][][] ZigZagArray){
+
+		int nbBlock = ZigZagArray[0].length; // 3x32x32x64
+		int valeur = 0;
+		int nbZeros = 0;
+		int[] couple = new int[2];
+		ArrayList<int[]> ar = new ArrayList<int[]>();
+
+		int[][][] returnedACArrayAbusivementEnorme = new int[COLOR_SPACE_SIZE][20000][2];
+
+		for (int i = 0 ; i < COLOR_SPACE_SIZE; i++) { // boucler a travers les composantes
+			ar.clear();
+			valeur = 0;
+			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> 32
+				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> 32
+					for (int l = 1; l < BLOCK_SIZE * BLOCK_SIZE-1; l++) { // boucler sur la longueur -> 64
+
+						// on ignore le premier nombre et on identifie les nombre et on cree une paire (nb de zeros précédant, valeur )
+						//96,6,-1,-1,0,-1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+						//(0,6)(0,-1)(0,-1)(1,-1)(3,1)(2,1)
+						valeur = ZigZagArray[i][v][h][l];
+						
+						if(valeur != 0){
+							// il faut absolument ré-initialiser le array couple car il est passé en référence au arraylist
+							// et ainsi a chaque ajout le contenu complet de l'arraylist change pour le nouveau couple
+							// http://www.coderanch.com/t/580391/java/java/Vector-object-overwritten-adding-element
+							couple = new int[2];
+							couple[0] = nbZeros;
+							couple[1] = valeur;
+					
+							ar.add(couple);
+							nbZeros = 0;
+
+						}
+						else{
+							nbZeros++;
+						}
+						
+					}
+				}
+					
+				*/		
+/*						
+			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
+				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
+					for (int j = 1; j < ZigZagArray[i][v][h].length-1; j++) {
+						
+						// on ignore le premier nombre et on identifie les nombre et on cree une paire (nb de zeros précédant, valeur )
+						//96,6,-1,-1,0,-1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+						//(0,6)(0,-1)(0,-1)(1,-1)(3,1)(2,1)
+						valeur = ZigZagArray[i][v][h][j];
+						
+						if(valeur != 0){
+							// il faut absolument ré-initialiser le array couple car il est passé en référence au arraylist
+							// et ainsi a chaque ajout le contenu complet de l'arraylist change pour le nouveau couple
+							// http://www.coderanch.com/t/580391/java/java/Vector-object-overwritten-adding-element
+							couple = new int[2];
+							couple[0] = nbZeros;
+							couple[1] = valeur;
+					
+							ar.add(couple);
+							nbZeros = 0;
+
+						}
+						else{
+							nbZeros++;
+						}
+					}
+				}
+			}
+			
+			
+			/*
+				on se retrouve avec 3 arrayLists
+					Size	Mod
+				Y	17011	17012
+				Cb	4207	21215
+				Cr	4437	25653
+			*/
+				
+		
+//		return returnedACArrayAbusivementEnorme;
+	/*
+		}
+				
+
+				System.out.println("TO ARRAY");
+			// selon l'énoncé, dans la méthode décriture du fichier, il semblerais que le AC doit pouvoir etre écrit en 8x8
+				for (int j = 0; j < ar.size(); j++) {
+					returnedACArrayAbusivementEnorme[i][j] = ar.get(j);
+				}
+				
+		}
+			return null;
+	}
+
+	*/
 	
 	
 //**     WRITER     ** \\					

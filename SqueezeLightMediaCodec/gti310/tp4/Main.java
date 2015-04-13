@@ -30,7 +30,7 @@ public class Main implements IConstants{
 		// donner des valeurs aux args etbypasser le set on run 
 		args[0] = "50";
 		args[1] = "Media/lena.ppm";
-		args[2] = "Media/lena_result.ppm";
+		args[2] = "Media/lena_result.szl";
 		
 		/**
 		 * 3 parametres:
@@ -48,41 +48,26 @@ public class Main implements IConstants{
 			
 			// lecture du fichier -> array 3 dimension -> 1 dimension/couleurRGB -> [R,G,B][0-256][0-256]
 			int[][][] originalImageArray = PPMReaderWriter.readPPMFile(args[1]);
-			
-			
-	//		PixelManipulation.show8x8IntMatrix(originalImageArray);
+//	PixelManipulation.show8x8IntMatrix(originalImageArray);
 			
 			// faire la conversion des couleurs du array de RGB vers YCbCr
 			float[][][] YCbCrImageArray = ImageManipulator.RGBToYCbCrImageConversion(originalImageArray);
+//	DataDisplay.printToFile(DISPLAYPATH2, YCbCrImageArray);
+//	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
 			
-	//		DataDisplay.printToFile(DISPLAYPATH2, YCbCrImageArray);
-
-			
-		//	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
 			float[][][] DCTResult = ImageManipulator.DCTConversion(YCbCrImageArray);
-			
-		//DataDisplay.printToFile(DISPLAYPATH, DCTResult);
+//  DataDisplay.printToFile(DISPLAYPATH, DCTResult);
 			
 			// call quantification -> passer facteur qualite en param
 			int[][][] QuantificationResult = ImageManipulator.quantification(DCTResult, 90);
-	
-	//		DataDisplay.printToFile(DISPLAYPATH, QuantificationResult);
+	DataDisplay.printToFile(DISPLAYPATH, QuantificationResult);
 			
 			// call zigzag passe les tableaux 8x8
 			int[][][][] ZigZagResult = ImageManipulator.zigzagger(QuantificationResult);
 			
+			DataDisplay.printToFile(DISPLAYPATH, ZigZagResult[0]);
 			
-			
-			int[][][] DCArray = ImageManipulator.entropyCoding(ZigZagResult);
-			
-		//	int[][][] ACArray = ImageManipulator.
-			
-			
-		/*	
-			for (int i = 0; i < data.length; i++) {
-				System.out.print(data[i]+", ");
-			}
-			*/
+			ImageManipulator.entropyCoding(ZigZagResult, args[2]);
 			
 		}
 		else if(args.length == 2){ // 2 param donc decodage

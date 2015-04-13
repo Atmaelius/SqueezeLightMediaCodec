@@ -2,6 +2,87 @@ package gti310.tp4.utility;
 
 public class Converter {
 
+
+
+
+	/**
+	 * Fonction qui crée un array AC a partir du array résultant du ZigZag
+	 * @param ZigZagArray
+	 * @return
+	 */
+	/*
+	public static int[][][] createACArray(int[][][][] ZigZagArray){
+
+		/*
+		// boucler sur le tableau zigzag,
+		// vérifier chacune des données sauf le 0,0
+		composer des couples(nb repetition de zero, valeur)
+		recombiner en array 3 dimension [espace][index][nbZero, valeur]
+		*/
+	/*	
+		int nbBlock = ZigZagArray[0].length;
+		int valeur = 0;
+		int nbZeros = 0;
+		int[] couple = new int[2];
+		ArrayList<int[]> ar = new ArrayList<int[]>();
+
+		int[][][] returnedACArrayAbusivementEnorme = new int[COLOR_SPACE_SIZE][20000][2];
+
+		for (int i = 0 ; i < ZigZagArray.length; i++) { // boucler a travers les composantes
+			ar.clear();
+			valeur = 0;
+			
+			for (int v = 0; v < nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
+				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
+					for (int j = 1; j < ZigZagArray[i][v][h].length-1; j++) {
+						
+						// on ignore le premier nombre et on identifie les nombre et on cree une paire (nb de zeros précédant, valeur )
+						//96,6,-1,-1,0,-1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+						//(0,6)(0,-1)(0,-1)(1,-1)(3,1)(2,1)
+						valeur = ZigZagArray[i][v][h][j];
+						
+						if(valeur != 0){
+							// il faut absolument ré-initialiser le array couple car il est passé en référence au arraylist
+							// et ainsi a chaque ajout le contenu complet de l'arraylist change pour le nouveau couple
+							// http://www.coderanch.com/t/580391/java/java/Vector-object-overwritten-adding-element
+							couple = new int[2];
+							couple[0] = nbZeros;
+							couple[1] = valeur;
+					
+							ar.add(couple);
+							nbZeros = 0;
+
+						}
+						else{
+							nbZeros++;
+						}
+					}
+				}
+			}
+			
+		*/	
+			/*
+				on se retrouve avec 3 arrayLists
+					Size	Mod
+				Y	17011	17012
+				Cb	4207	21215
+				Cr	4437	25653
+			*/
+			/*	
+			System.out.println("TO ARRAY");
+		// selon l'énoncé, dans la méthode décriture du fichier, il semblerais que le AC doit pouvoir etre écrit en 8x8
+			for (int j = 0; j < ar.size(); j++) {
+				returnedACArrayAbusivementEnorme[i][j] = ar.get(j);
+			}
+
+		}
+		
+		return returnedACArrayAbusivementEnorme;
+	}
+*/
+	
+	
+	
 	
 	//http://stackoverflow.com/questions/1067073/initialising-a-multidimensional-array-in-java
 	/**
