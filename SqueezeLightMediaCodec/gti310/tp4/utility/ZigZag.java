@@ -115,12 +115,52 @@ public class ZigZag implements IConstants{
 	}
 	
 	
+	
+	
+	public static int[][] iZig_Zag(int[] arrayZigzager){
+		int size = BLOCK_SIZE;
+		int[][] data = new int[size][size];		
+		
+		int element = 1;
+	
+		for (int i = 1; i < size; i++){
+			for (int j = 1; j < size; j++){
+				 data[i - 1][j - 1] = arrayZigzager[element];	
+				element++;
+				if ((i + j) % 2 == 0){ // Even stripes
+					if (j < size){
+						j++;
+					}
+					else{
+						i+= 2;
+					}
+					if (i > 1){
+						i--;
+					}
+				}
+				else{// Odd stripes
+					if (i < size){
+						i++;
+					}
+					else{
+						j+= 2;
+					}
+					if (j > 1){
+						j--;
+					}
+				}
+			}
+		}
+		return data;
+	}
+	
 	/**
 	 * Traverser un tableau 8x8 et retourner les valeurs sous forme de array 1 dimension
 	 * @param array
 	 * @return
 	 * Inspiré depuis http://rosettacode.org/wiki/Zig-zag_matrix
 	 */
+	/*
 	public static int[][] reverseZig_Zag(int[] array){
 		//pas fonctionnel
 		int size = BLOCK_SIZE;
@@ -158,6 +198,156 @@ public class ZigZag implements IConstants{
 		return data;
 	}
 
+	*/
+	
+
+	/**
+	 * Traverser un tableau 8x8 et retourner les valeurs sous forme de array 1 dimension
+	 * @param array
+	 * @return
+	 * Inspiré depuis http://rosettacode.org/wiki/Zig-zag_matrix
+	 */
+	public static int[][] reverseZig_Zag(int[] data){
+		int size = BLOCK_SIZE;
+		int[][]  array= new int[size][size];
+		
+		array[0][0] = data[0];
+		array[0][1] = data[1];
+		array[1][0] = data[2];
+		array[2][0] = data[3];
+		array[1][1] = data[4];
+		array[0][2] = data[5];
+		array[0][3] = data[6];
+		array[1][2] = data[7];
+		array[2][1] = data[8];
+		array[3][0] = data[9];
+		array[4][0] = data[10];
+		array[3][1] = data[11];
+		array[2][2] = data[12];
+		array[1][3] = data[13];
+		array[0][4] = data[14];
+		array[0][5] = data[15];
+		array[1][4] = data[16];
+		array[2][3] = data[17];
+		array[3][2] = data[18];
+		array[4][1] = data[19];
+		array[5][0] = data[20];
+		array[6][0] = data[21];
+		array[5][1] = data[22];
+		array[4][2] = data[23];
+		array[3][3] = data[24];
+		array[2][4] = data[25];
+		array[1][5] = data[26];
+		array[0][6] = data[27];
+		array[0][7] = data[28];
+		array[1][6] = data[29];
+		array[2][5] = data[30];
+		array[3][4] = data[31];
+		array[4][3] = data[32];
+		array[5][2] = data[33];
+		array[6][1] = data[34];
+		array[7][0] = data[35];
+		array[7][1] = data[36];
+		array[6][2] = data[37];
+		array[5][3] = data[38];
+		array[4][4] = data[39];
+		array[3][5] = data[40];
+		array[2][6] = data[41];
+		array[1][7] = data[42];
+		array[2][7] = data[43];
+		array[3][6] = data[44];
+		array[4][5] = data[45];
+		array[5][4] = data[46];
+		array[6][3] = data[47];
+		array[7][2] = data[48];
+		array[7][3] = data[49];
+		array[6][4] = data[50];
+		array[5][5] = data[51];
+		array[4][6] = data[52];
+		array[3][7] = data[53];
+		array[4][7] = data[54];
+		array[5][6] = data[55];
+		array[6][5] = data[56];
+		array[7][4] = data[57];
+		array[7][5] = data[58];
+		array[6][6] = data[59];
+		array[5][7] = data[60];
+		array[6][7] = data[61];
+		array[7][6] = data[62];
+		array[7][7] = data[63];
+		
+		
+		/*
+		array[0][0] = data[0];
+		array[1][0] = data[1];
+		array[0][1] = data[2];
+		array[0][2] = data[3];
+		array[1][1] = data[4];
+		array[2][0] = data[5];
+		array[3][0] = data[6];
+		array[2][1] = data[7];
+		array[1][2] = data[8];
+		array[0][3] = data[9];
+		array[0][4] = data[10];
+		array[1][3] = data[11];
+		array[2][2] = data[12];
+		array[3][1] = data[13];
+		array[4][0] = data[14];
+		array[5][0] = data[15];
+		array[4][1] = data[16];
+		array[3][2] = data[17];
+		array[2][3] = data[18];
+		array[1][4] = data[19];
+		array[0][5] = data[20];
+		array[0][6] = data[21];
+		array[1][5] = data[22];
+		array[2][4] = data[23];
+		array[3][3] = data[24];
+		array[4][2] = data[25];
+		array[5][1] = data[26];
+		array[6][0] = data[27];
+		array[7][0] = data[28];
+		array[6][1] = data[29];
+		array[5][2] = data[30];
+		array[4][3] = data[31];
+		array[3][4] = data[32];
+		array[2][5] = data[33];
+		array[1][6] = data[34];
+		array[0][7] = data[35];
+		array[1][7] = data[36];
+		array[2][6] = data[37];
+		array[3][5] = data[38];
+		array[4][4] = data[39];
+		array[5][3] = data[40];
+		array[6][2] = data[41];
+		array[7][1] = data[42];
+		array[7][2] = data[43];
+		array[6][3] = data[44];
+		array[5][4] = data[45];
+		array[4][5] = data[46];
+		array[3][6] = data[47];
+		array[2][7] = data[48];
+		array[3][7] = data[49];
+		array[4][6] = data[50];
+		array[5][5] = data[51];
+		array[6][4] = data[52];
+		array[7][3] = data[53];
+		array[7][4] = data[54];
+		array[6][5] = data[55];
+		array[5][6] = data[56];
+		array[4][7] = data[57];
+		array[5][7] = data[58];
+		array[6][6] = data[59];
+		array[7][5] = data[60];
+		array[7][6] = data[61];
+		array[6][7] = data[62];
+		array[7][7] = data[63];
+		*/
+		return array;
+	}
+
+	
+	
 	
 	
 }

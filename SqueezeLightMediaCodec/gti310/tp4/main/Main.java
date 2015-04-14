@@ -70,7 +70,7 @@ public class Main implements IConstants{
 			// call zigzag passe les tableaux 8x8
 			int[][][][] ZigZagResult = ZigZag.zigzagger(QuantificationResult);
 			
-			DataDisplay.printToFile(DISPLAYPATH, ZigZagResult[0]);
+//			DataDisplay.printToFile(DISPLAYPATH, ZigZagResult[0]);
 			
 			EntropyCoding.entropyCoding(ZigZagResult, args[2]);
 			

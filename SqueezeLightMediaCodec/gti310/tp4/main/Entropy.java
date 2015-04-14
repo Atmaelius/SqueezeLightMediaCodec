@@ -386,7 +386,7 @@ public class Entropy {
 	 * triplet. The Value part is encoded in binary format directly. The 
 	 * RUNLENGTH/SIZE couple is encoded using the Huffman RUNLENGTH/SIZE table.
 	 * The triplet is then written to the byte buffer using the number of bits
-	 * needed to represent the value (to keep the "invisible" leeding zeros
+	 * needed to represent the value (to keep the "invisible" leedi0ng zeros
 	 * using the Integer.toBinaryString() method).
 	 * 
 	 * @param runlength
