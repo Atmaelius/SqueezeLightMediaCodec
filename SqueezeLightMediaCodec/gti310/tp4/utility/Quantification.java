@@ -1,6 +1,7 @@
 package gti310.tp4.utility;
 
 /**
+ * Classe responsable de la réalisation de l'opération de quantification
  * @author eric
  */
 

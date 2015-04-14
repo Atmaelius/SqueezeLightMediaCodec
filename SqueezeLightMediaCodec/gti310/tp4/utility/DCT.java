@@ -1,6 +1,7 @@
 package gti310.tp4.utility;
 
 /**
+ * Classe qui contiens et gère les opérations relatives a l'opération de DCT
  * @author eric
  */
 
@@ -52,7 +53,7 @@ public class DCT implements IConstants{
 
 	
 	/**
-	 * Fonction qui effectue la DCT inverse
+	 * Fonction qui effectue le traitement de DCT inverse
 	 * @param originalArray	un array 3 dimensions de float
 	 * @return	resultDctArray	Le array résultat de la DCT en 3 dimensions 
 	 */
@@ -82,11 +83,12 @@ public class DCT implements IConstants{
 	
 	
 	/**
-	 * Function that applies a DCT conversion to a 3 dimensionnal array of float values 
-	 * @param block a block of 8x8 float values -> [RGB][0-7][0-7]
-	 * @return
+	 * FOnction qui applique le traitement de DCT a un array en 3 dimensions de float 
+	 * @param block un block 8x8 de valeurs en float -> [RGB][0-7][0-7]
+	 * @return F le résultat de l'opération
 	 */
 	// inspiré de http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java
+	// ainsi que des notes de cours et énoncé de laboratoire
 	public static float[][] DCTConverter(float[][] block){
 		// manipuler un ensemble(bloc) de 8x8 pixel et applique le traitement de moyennes...
 		// remplir le tableau C
@@ -110,6 +112,11 @@ public class DCT implements IConstants{
 	}
 	
 	
+	/**
+	 * Fonction effectuant le traitement de DCT inverse sur un bloc 8x8
+	 * @param block	un array en 2 dimensions 8x8 de float
+	 * @return F tableau bi-dimensionnel, le résultat de l'opération
+	 */
 	// inspiré de http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java
 	public static float[][] IDCTConverter(float[][] block){
 		// remplir le tableau C
@@ -132,6 +139,9 @@ public class DCT implements IConstants{
 	}
 	
 	
+	/**
+	 * Fonction qui sers a remplir le tableau C
+	 */
 	private static void remplirC(){
 		
 		for (int i = 0; i < C.length; i++) {

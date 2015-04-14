@@ -5,11 +5,12 @@ import gti310.tp4.main.SZLReaderWriter;
 import gti310.tp4.utility.DataDisplay;
 import gti310.tp4.utility.EntropyCoding;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class EntropyTester {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		
 	//private static int[][] IACRLE(ArrayList<int[]> list){
 

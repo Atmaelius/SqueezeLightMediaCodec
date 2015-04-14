@@ -1,15 +1,7 @@
 package gti310.tp4.main;
 
 import java.io.FileNotFoundException;
-
-import gti310.tp4.utility.ColorConverter;
-import gti310.tp4.utility.DCT;
-import gti310.tp4.utility.DataDisplay;
-import gti310.tp4.utility.EntropyCoding;
-import gti310.tp4.utility.IConstants;
-import gti310.tp4.utility.ImageManipulator;
-import gti310.tp4.utility.Quantification;
-import gti310.tp4.utility.ZigZag;
+import gti310.tp4.utility.*;
 
 /**
  * The Main class is where the different functions are called to either encode
@@ -31,12 +23,6 @@ public class Main implements IConstants{
 		System.out.println("Squeeze Light Media Codec !");
 		
 		int facteurQualite = -1;
-		
-		// donner des valeurs aux args etbypasser le set on run 
-		args[0] = "50";
-		args[1] = "Media/lena.ppm";
-		args[2] = "Media/lena_result.szl";
-		
 		/**
 		 * 3 parametres:
 		 * facteur qualité: 1-100
@@ -53,24 +39,17 @@ public class Main implements IConstants{
 			
 			// lecture du fichier -> array 3 dimension -> 1 dimension/couleurRGB -> [R,G,B][0-256][0-256]
 			int[][][] originalImageArray = PPMReaderWriter.readPPMFile(args[1]);
-//	PixelManipulation.show8x8IntMatrix(originalImageArray);
 			
 			// faire la conversion des couleurs du array de RGB vers YCbCr
 			float[][][] YCbCrImageArray = ColorConverter.RGBToYCbCrImageConversion(originalImageArray);
-//	DataDisplay.printToFile(DISPLAYPATH2, YCbCrImageArray);
-//	ImageManipulator.show8x8FloatMatrix(YCbCrImageArray);
 			
 			float[][][] DCTResult = DCT.DCTConversion(YCbCrImageArray);
-//  DataDisplay.printToFile(DISPLAYPATH, DCTResult);
 			
 			// call quantification -> passer facteur qualite en param
 			int[][][] QuantificationResult = Quantification.quantification(DCTResult, 90);
-	DataDisplay.printToFile(DISPLAYPATH, QuantificationResult);
 			
 			// call zigzag passe les tableaux 8x8
 			int[][][][] ZigZagResult = ZigZag.zigzagger(QuantificationResult);
-			
-//			DataDisplay.printToFile(DISPLAYPATH, ZigZagResult[0]);
 			
 			EntropyCoding.entropyCoding(ZigZagResult, args[2]);
 			

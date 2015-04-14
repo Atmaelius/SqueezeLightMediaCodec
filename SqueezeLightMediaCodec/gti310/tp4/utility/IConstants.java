@@ -1,30 +1,31 @@
 package gti310.tp4.utility;
 /**
+ * Interface contenant des constantes utiles au déroulement du programme
  * @author eric
  */
 
 public interface IConstants {
 
-	
-	public static final String DISPLAYPATH= "./Recyclage/test.txt";
-	public static final String DISPLAYPATH2 = "./Recyclage/test2.txt";
-	
+
+	public static final String DISPLAYPATH= "./main/test.txt";
+	public static final String DISPLAYPATH2 = "./main/test2.txt";
+
 	// The entire application assumes that the blocks are 8x8 squares.
 	public static final int BLOCK_SIZE = 8;
-	
+
 	// The number of dimensions in the color spaces.
 	public static final int COLOR_SPACE_SIZE = 3;
-	
+
 	// The RGB color space.
 	public static final int R = 0;
 	public static final int G = 1;
 	public static final int B = 2;
-	
+
 	// The YUV color space.
 	public static final int Y = 0;
 	public static final int Cb = 1;
 	public static final int Cr = 2;
-	
+
 
 	// celles de l'énoncé
 	public static final float[][] QuantificationQyTable = new float[][]{
@@ -51,7 +52,7 @@ public interface IConstants {
 	};
 
 
-	
+
 	/*  --- VALEURS DE TEST ---  */
 
 	public static final float[][][] TestArrayForDCT = new float[][][]{
@@ -66,7 +67,7 @@ public interface IConstants {
 			{210,200,200,200,188,185,187,186}
 		}
 	};
-	
+
 
 	public static final float[][][] TestArrayResultFromFloatDCT = new float[][][]{
 		{
@@ -80,6 +81,7 @@ public interface IConstants {
 			{-2,5,-2,4,-2,2,-3,0}
 		}
 	};
+
 	
 	public static final int[][][] TestArrayResultFromIntDCT = new int[][][]{
 		{
@@ -93,22 +95,22 @@ public interface IConstants {
 			{-2,5,-2,4,-2,2,-3,0}
 		}
 	};
-	
-	
+
+
 	// Celles du ppt
 	public static final int[][][] TestQuantificationQyTable = new int[][][]{
 		{
-		{16, 11, 10, 16, 24, 40, 51, 61},
-		{12, 12, 14, 19, 26, 58, 60, 55},
-		{14, 13, 16, 24, 40, 57, 69, 56},
-		{14, 17, 22, 29, 51, 87, 80, 62},
-		{18, 22, 37, 56, 68, 109, 103, 77},
-		{24, 35, 55, 64, 81, 104, 113, 92},
-		{49, 64, 78, 87, 103, 121, 120, 101},
-		{72, 92, 95, 98, 112, 100, 103, 99}
+			{16, 11, 10, 16, 24, 40, 51, 61},
+			{12, 12, 14, 19, 26, 58, 60, 55},
+			{14, 13, 16, 24, 40, 57, 69, 56},
+			{14, 17, 22, 29, 51, 87, 80, 62},
+			{18, 22, 37, 56, 68, 109, 103, 77},
+			{24, 35, 55, 64, 81, 104, 113, 92},
+			{49, 64, 78, 87, 103, 121, 120, 101},
+			{72, 92, 95, 98, 112, 100, 103, 99}
 		}
-		};
-	
+	};
+
 
 	// Celle du ppt
 	public static final float[][] TestQuantificationQcbQcrTable = new float[][]{
@@ -122,6 +124,7 @@ public interface IConstants {
 		{99,99,99,99,99,99,99,99}
 	};
 
+	
 	// celle du ppt
 	public static final float[][][] TestArrayResultFromFloatQuantification = new float[][][]{
 		{
@@ -134,21 +137,21 @@ public interface IConstants {
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0}
 		}
-		};
-	
+	};
+
 	
 	// celle du ppt
 	public static final int[][][] TestArrayResultFromIntQuantification = new int[][][]{
 		{
-		{96,6,-1,0,0,0,0,0},
-		{-1,0,0,0,0,0,0,0},
-		{-1,0,1,0,0,0,0,0},
-		{-1,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0}
+			{96,6,-1,0,0,0,0,0},
+			{-1,0,0,0,0,0,0,0},
+			{-1,0,1,0,0,0,0,0},
+			{-1,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0}
 		}
-		};
+	};
 
 }

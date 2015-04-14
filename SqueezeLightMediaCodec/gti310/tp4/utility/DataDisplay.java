@@ -7,14 +7,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
+ * Fonction de classes utilitaires utilisées pour faire l'affichage des données
  * @author eric
  */
 
 public class DataDisplay implements IConstants{
 
-	
 	public static void printToFile(String path, float[][][] array) throws FileNotFoundException{
-		
+
 		File file = new File(path);
 		String endline = "\n";
 
@@ -22,13 +22,13 @@ public class DataDisplay implements IConstants{
 			file.delete();
 		}
 		try {
-				FileWriter fw = new FileWriter(file.getAbsoluteFile());
-				BufferedWriter bw = new BufferedWriter(fw);
-		
-				for (int i = 0; i < array.length; i++) {
-					 bw.write("Dimension:" + i + endline);
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			for (int i = 0; i < array.length; i++) {
+				bw.write("Dimension:" + i + endline);
 				for (int j = 0; j < array[0].length; j++) {
-					 bw.write("Ligne:" + j + endline);
+					bw.write("Ligne:" + j + endline);
 					for (int k = 0; k < array[0][0].length; k++) {
 						bw.write(String.valueOf(array[i][j][k]+",   "));
 					}
@@ -37,16 +37,16 @@ public class DataDisplay implements IConstants{
 				bw.write(" ------------------------------------------------------------------------------------------------------------------" + endline);
 			}
 			bw.close();
-			
+
 		} catch (IOException e) {
 			System.out.println(e.getMessage());		
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	public static void printToFile(String path, int[][][] array) throws FileNotFoundException{
-		
+
 		File file = new File(path);
 		String endline = "\n";
 
@@ -54,13 +54,13 @@ public class DataDisplay implements IConstants{
 			file.delete();
 		}
 		try {
-				FileWriter fw = new FileWriter(file.getAbsoluteFile());
-				BufferedWriter bw = new BufferedWriter(fw);
-		
-				for (int i = 0; i < array.length; i++) {
-					 bw.write("Dimension:" + i + endline);
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			for (int i = 0; i < array.length; i++) {
+				bw.write("Dimension:" + i + endline);
 				for (int j = 0; j < array[0].length; j++) {
-					 bw.write("Ligne:" + j + endline);
+					bw.write("Ligne:" + j + endline);
 					for (int k = 0; k < array[0][0].length; k++) {
 						bw.write(String.valueOf(array[i][j][k]+",   "));
 					}
@@ -69,33 +69,33 @@ public class DataDisplay implements IConstants{
 				bw.write(" ------------------------------------------------------------------------------------------------------------------" + endline);
 			}
 			bw.close();
-			
+
 		} catch (IOException e) {
 			System.out.println(e.getMessage());		
 			e.printStackTrace();
 		}
 	}
-	
 
-	
-	
-//**     DISPLAY     **\\
-	
+
+
+
+	//**     DISPLAY     **\\
+
 	public static void show8x8List(int[][] array){
-		
+
 		for (int i = 0; i < array.length; i+=BLOCK_SIZE) {
 			for (int j = 0; j < BLOCK_SIZE; j++) {
 				for (int k = 0; k < BLOCK_SIZE; k++) {
 					//System.out.println("("+j+","+k+")->" + array[j][k]);
 					System.out.print(array[j][k]+", ");
-					
+
 				}
 				System.out.println();
 			}
 		}
 	}
-	
-	
+
+
 	public static void showDCTBlock(float[][] array){
 		System.out.println("Block DCT #");
 		for (int y = 0; y < BLOCK_SIZE; y++) {
@@ -105,8 +105,8 @@ public class DataDisplay implements IConstants{
 			System.out.println();
 		}
 	}
-	
-	
+
+
 	public static void showDCTBlock(float[][] array, int number){
 		System.out.println("Block DCT #" + number);
 		for (int y = 0; y < BLOCK_SIZE; y++) {
@@ -116,8 +116,8 @@ public class DataDisplay implements IConstants{
 			System.out.println();
 		}
 	}
-	
-	
+
+
 	public static void showDCTBlock(float[][] array, int xCoor, int yCoor, int number){
 		System.out.println("Block DCT #" + number + "-> ("+ xCoor+","+ yCoor+")" );
 		for (int y = 0; y < BLOCK_SIZE; y++) {
@@ -127,20 +127,20 @@ public class DataDisplay implements IConstants{
 			System.out.println();
 		}
 	}
-	
-	
+
+
 	public static void show8x8FloatMatrix(float[][][] array){ // testé avec les float pre-dct
-		
+
 		int valX = -1;
 		int valY = -1;
 		int nbBlock = (array[0][0].length/BLOCK_SIZE);
-		
+
 		for (int i = 0 ; i < array.length; i++) { // boucler a travers les composantes [Y,Cb,Cr]
 			for (int v = 0; v < nbBlock; v++) { // boucler a travers l'ensemble des blocs verticalement > Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers l'ensemble des blocs horizontalement -> X
-				   
+
 					System.out.printf("Block(%d,%d)\n",h,v);
-					
+
 					for (int y = 0; y < BLOCK_SIZE; y++) { // boucler sur la hauteur d'un block
 						for (int x = 0; x < BLOCK_SIZE ; x++) { // boucler sur la largeur du block
 							valX = h * BLOCK_SIZE + x;
@@ -154,19 +154,19 @@ public class DataDisplay implements IConstants{
 		}
 	}
 
-	
+
 	public static void show8x8IntMatrix(int[][][] array){ // pas testé
-	
+
 		int valX = -1;
 		int valY = -1;
 		int nbBlock = array[0].length/8;
-		
+
 		System.out.println(nbBlock);
-		
+
 		for (int i = 0 ; i < array.length; i++) { // boucler a travers les composantes
 			for (int v = 0; v< nbBlock; v++) { // boucler a travers les blocs verticaux identifiés -> Y
 				for (int h = 0; h < nbBlock; h++) { // boucler a travers les blocs horizontaux -> X
-				    System.out.printf("Block(%d,%d)\n",h,v);
+					System.out.printf("Block(%d,%d)\n",h,v);
 					for (int y = 0; y < 8; y++) {
 						for (int x = 0; x < 8 ; x++) {
 							valX = h * 8 + x;
@@ -179,5 +179,5 @@ public class DataDisplay implements IConstants{
 			}
 		}
 	}
-	
+
 }

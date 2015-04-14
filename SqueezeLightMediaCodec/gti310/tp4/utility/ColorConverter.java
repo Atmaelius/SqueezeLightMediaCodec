@@ -1,11 +1,11 @@
 package gti310.tp4.utility;
 
 /**
+ * Classe qui contiens et qui gère les opérations relatives a la conversion de couleurs
  * @author eric
  */
 
 public class ColorConverter implements IConstants{
-	
 	
 	/** Fonction qui convertis une image RGB en format YCbCr
 	 * @param image	le array de int en 3 dimensions représentant l'image
@@ -27,9 +27,8 @@ public class ColorConverter implements IConstants{
 	}
 
 	
-	//http://stackoverflow.com/questions/1067073/initialising-a-multidimensional-array-in-java
 	/**
-	 * Function that converts one RGBColor array into a YCbCrColor array
+	 * Fonction qui convertis un array de couleurs RVB en couleurs YCbCr
 	 * @param redValue  integer
 	 * @param greenValue integer
 	 * @param blueValue integer
@@ -65,13 +64,13 @@ public class ColorConverter implements IConstants{
 	
 	
 	/**
-	 * Function that converts one RGBColor array into a YCbCrColor array
+	 * Fonction qui convertis un array de couleurs YCbCr en couleurs RVB
 	 * @param Y float
 	 * @param Cb float
 	 * @param Cr float
 	 * @return RGBResult, an array {float Y, float Cb, float Cr}
 	 */
-	// sauce : https://msdn.microsoft.com/en-us/library/ff635267.aspx
+	// source : https://msdn.microsoft.com/en-us/library/ff635267.aspx
 	public static int[] YCbCrToRGB(float Y, float Cb, float Cr){
 		int [] RGBResult = {0,0,0};
 		RGBResult[0] = (int) ((Y*1) + (Cb*0) + (Cr*1.403));
