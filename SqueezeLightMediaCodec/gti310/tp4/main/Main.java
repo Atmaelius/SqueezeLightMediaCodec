@@ -57,6 +57,17 @@ public class Main implements IConstants{
 		else if(args.length == 2){ // 2 param donc decodage
 			// decoder(args[0], args[1]);
 			System.out.println("OPERATION DECODAGE ");
+		/*	
+			int[][][][] entropie = EntropyCoding.IEntropyCoding(args[1]);
+			int[][][][] ZigZagArray = ZigZag.reverseZigzagger(entropie);
+			
+			// Fonction qui prend un array en 3 dimensions recoit un array en 4 dimensions, pas le temps de corriger malheureusement.
+			float[][][] arrayQuantifie = Quantification.reverseQuantification(ZigZagArray, facteurQualite);
+
+			float[][][] DCTArray = DCT.IDCTConversion(arrayQuantifie);
+			int[][][] RGBImage = ColorConverter.YCbCrToRGBImageConversion(DCTArray);
+			PPMReaderWriter.writePPMFile(args[2], RGBImage);
+		*/	
 			
 		}
 		else{ // pas le bon nombre de param

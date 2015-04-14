@@ -10,7 +10,8 @@ public class ColorConverter implements IConstants{
 	/** Fonction qui convertis une image RGB en format YCbCr
 	 * @param image	le array de int en 3 dimensions représentant l'image
 	 * @return	yCbCbImageResult	Array 3 dimensions de float représentant l'image convertie en YCbCr
-	 */
+	 * Analyse de Complexité: O(N²);
+	 */	 
 	public static float[][][] RGBToYCbCrImageConversion(int[][][] image){
 		float[][][] yCbCrImageResult = new float[image.length][image[0].length][image[0][0].length];
 		float [] tempYCbCrResult = {0,0,0};
@@ -46,6 +47,7 @@ public class ColorConverter implements IConstants{
 	/** Fonction qui convertis une image YCbCb en format RGB
 	 * @param image	le array de float en 3 dimensions représentant l'image
 	 * @return	RGBImageResult	Array 3 dimensions de int représentant l'image convertie en YCbCr
+	 * Analyse de Complexité: O(N²);
 	 */
 	public static int[][][] YCbCrToRGBImageConversion(float[][][] image){
 		int[][][] RGBImageResult = new int[image.length][image[0].length][image[0][0].length];

@@ -11,6 +11,7 @@ public class ZigZag implements IConstants{
 	 * Fonction qui sers a effectuer le traitement de parcours Zig-Zag afin de rassemble les zéros ensembles le plus possible
 	 * @param QuantificationResult	Le résultat de la quantification
 	 * @return	returnedZigZagArray	Le array
+	 * Analyse de Complexité: O(N⁵);
 	 */
 	public static int[][][][] zigzagger(int[][][] QuantificationResult){
 
@@ -44,6 +45,7 @@ public class ZigZag implements IConstants{
 	 * @param array le bloc 8x8 passé en parametre
 	 * @return	data	la représentation du array en paramêtre retourné en 1 dimension
 	 * Inspiré depuis http://rosettacode.org/wiki/Zig-zag_matrix
+	 * Analyse de Complexité: O(N);
 	 */
 	public static int[] Zig_Zag(int[][] array){
 		int size = BLOCK_SIZE;
@@ -86,6 +88,7 @@ public class ZigZag implements IConstants{
 	 *  afin de rassembler les zéros ensembles le plus possible
 	 * @param QuantificationResult	Le résultat de la quantification
 	 * @return	returnedZigZagArray	Le array résultant du zigzag inverse
+	 * Analyse de Complexité: O(N⁵);
 	 */
 	public static int[][][][] reverseZigzagger(int[][][][] ZigZagArray){
 		

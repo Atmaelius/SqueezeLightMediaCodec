@@ -30,6 +30,7 @@ public class Quantification implements IConstants{
 	 * @param DCTArray	Le resultat de l'operation de dct
 	 * @param facteurQualite	Le facteur de qualité voulu, entré par l'user a l'appel du programme
 	 * @return	arrayQuantifie	Le array de la dct après la quantification
+	 * Analyse de Complexité: O(N⁴);
 	 */
 	public static int[][][] quantification(float[][][] DCTArray, int facteurQualite){
 
@@ -73,6 +74,7 @@ public class Quantification implements IConstants{
 	 * @param arrayQuantifie	Le array quantifié
 	 * @param facteurQualite	Le facteur de qualité voulu
 	 * @return	arrayQuantifieInverse	Le array déquantifié
+	 * Analyse de Complexité: O(N⁴);
 	 */
 	public static float[][][] reverseQuantification(int[][][] arrayQuantifie, int facteurQualite){
 	

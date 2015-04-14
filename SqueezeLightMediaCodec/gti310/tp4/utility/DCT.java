@@ -13,6 +13,7 @@ public class DCT implements IConstants{
 	 * Fonction qui applique un traitement DCT sur un array donné
 	 * @param originalArray array 3 dimension [R,G,B][0-256][0-256]
 	 * @return ResultDctArray le résultat de la conversion
+	 * Analyse de Complexité: O(N^5);
 	 */
 	public static float[][][] DCTConversion(float[][][] originalArray){
 		float[][] tempDctArray = new float[BLOCK_SIZE][BLOCK_SIZE];
@@ -56,6 +57,7 @@ public class DCT implements IConstants{
 	 * Fonction qui effectue le traitement de DCT inverse
 	 * @param originalArray	un array 3 dimensions de float
 	 * @return	resultDctArray	Le array résultat de la DCT en 3 dimensions 
+	 * Analyse de Complexité: O(N^5);
 	 */
 	public static float[][][] IDCTConversion(float[][][] originalArray){
 		float[][] tempDctArray = new float[BLOCK_SIZE][BLOCK_SIZE];
@@ -86,6 +88,7 @@ public class DCT implements IConstants{
 	 * FOnction qui applique le traitement de DCT a un array en 3 dimensions de float 
 	 * @param block un block 8x8 de valeurs en float -> [RGB][0-7][0-7]
 	 * @return F le résultat de l'opération
+	 * Analyse de Complexité: O(N^4);
 	 */
 	// inspiré de http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java
 	// ainsi que des notes de cours et énoncé de laboratoire
@@ -116,6 +119,7 @@ public class DCT implements IConstants{
 	 * Fonction effectuant le traitement de DCT inverse sur un bloc 8x8
 	 * @param block	un array en 2 dimensions 8x8 de float
 	 * @return F tableau bi-dimensionnel, le résultat de l'opération
+	 * Analyse de Complexité: O(N^4);
 	 */
 	// inspiré de http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java
 	public static float[][] IDCTConverter(float[][] block){
@@ -141,6 +145,7 @@ public class DCT implements IConstants{
 	
 	/**
 	 * Fonction qui sers a remplir le tableau C
+	 * Analyse de Complexité: O(N);
 	 */
 	private static void remplirC(){
 		

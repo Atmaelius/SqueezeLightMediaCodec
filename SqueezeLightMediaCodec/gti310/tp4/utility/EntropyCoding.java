@@ -17,6 +17,7 @@ public class EntropyCoding implements IConstants{
 	 * Fonction qui fais le codage entropique des AC et DC contenus dans le ZigZagArray
 	 * @param ZigZagArray	Array résultant du traitement de la classe ZigZag
 	 * @param fileName Le nom du fichier à aller lire
+	 * Analyse de Complexité: O(N⁴);
 	 */
 	public static void entropyCoding(int[][][][] ZigZagArray, String fileName){
 
@@ -48,6 +49,7 @@ public class EntropyCoding implements IConstants{
 	 * @param filename chemin vers le fichier a lire
 	 * @return ZigZagMatrix	La matrice ZigZag contenant les informations de l'image
 	 * @throws FileNotFoundException 
+	 * Analyse de Complexité: O(N⁶);
 	 */
 	public static int[][][][] IEntropyCoding(String filename) throws FileNotFoundException{
 		// IL FAUT LIRE LES VALEURS DANS LE MEME ORDRE QUON LES ÉCRIS !
@@ -111,10 +113,7 @@ public class EntropyCoding implements IConstants{
 				}
 			}
 		}
-		DataDisplay.printToFile(DISPLAYPATH, ZigZagMatrix[0]);
-
 		return ZigZagMatrix;
-
 	}
 
 
@@ -122,6 +121,7 @@ public class EntropyCoding implements IConstants{
 	 * Fonction qui crée le array DC a partir du array resultant du ZigZag
 	 * @param ZigZagArray
 	 * @return returnedDCArray	Le array issu du traitement DC
+	 * Analyse de Complexité: O(N³);
 	 */
 	private static int[][][][] DCDPCM(int[][][][] ZigZagArray){
 
@@ -146,6 +146,7 @@ public class EntropyCoding implements IConstants{
 	 * @param ZigZagArray	Array issu du traitement ZigZag contenant les informations
 	 * necessaires au traitement DPCM
 	 * @return returnedDCArray	Le array issu du traitement DC
+	 * Analyse de Complexité: O(N³);
 	 */
 	private static int[][][][] IDCDPCM(int[][][][] ZigZagArray){
 
@@ -169,6 +170,7 @@ public class EntropyCoding implements IConstants{
 	 * Fonction qui crée un array AC a partir d'un block résultant du ZigZag
 	 * @param block	Un bloc 8x8 qui doit être traité en AC
 	 * @return ar	ArrayList<int[]> liste contenant les couples (runlength, value) liés au bloc
+	 * Analyse de Complexité: O(N);
 	 */
 	private static ArrayList<int[]> ACRLE(int[] block){
 
@@ -213,6 +215,7 @@ public class EntropyCoding implements IConstants{
 	 * Seconde version pour surchage de méthode
 	 * @param Arraylist, liste des couples contenus
 	 * @return block, 8x8 representant les valeurs 
+	 * Analyse de Complexité: O(N²);
 	 */
 	public static int[][] IACRLE(ArrayList<int[]> list){
 
@@ -262,11 +265,13 @@ public class EntropyCoding implements IConstants{
 		return block;
 	}
 
+	
 	/**
 	 * Fonction appliquant le traitement inverse du codage RLE des AC
 	 * Seconde version pour surcharge de méthode
-	 * @param list
-	 * @return
+	 * @param liste des données
+	 * @return	block	un bloc de données 8x8
+	 * Analyse de Complexité: O(N²);
 	 */
 	public static int[][] IACRLE(int[][] list){
 		int[][] block = new int[BLOCK_SIZE][BLOCK_SIZE];
